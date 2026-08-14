@@ -24,9 +24,11 @@ export function NarrativeGame({ stage, detected, onChapterDone, onExit, onModule
   else if (stage === 4) chapterBody = <Chapter5 onDone={onChapterDone} onExit={onExit} />;
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 items-start">
+    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 md:gap-5 lg:gap-6 items-start w-full">
       <div className="flex-1 min-w-0 w-full">{chapterBody}</div>
-      <PatternScanner detected={detected} />
+      <div className="w-full lg:w-auto">
+        <PatternScanner detected={detected} />
+      </div>
     </div>
   );
 }

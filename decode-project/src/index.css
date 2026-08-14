@@ -50,33 +50,93 @@ body::before {
   .decode-cursor { animation: none; opacity: 1; }
 }
 
-/* Responsive typography improvements */
-@media (max-width: 640px) {
+/* ========== RESPONSIVE TYPOGRAPHY & SIZING ========== */
+
+/* Extra small devices (320px - 374px) */
+@media (max-width: 374px) {
+  html {
+    font-size: 13px;
+  }
+  button {
+    min-height: 40px;
+    min-width: 40px;
+  }
+}
+
+/* Small devices (375px - 639px) */
+@media (min-width: 375px) and (max-width: 639px) {
   html {
     font-size: 14px;
   }
-}
-
-@media (min-width: 1280px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-/* Ensure buttons are touch-friendly on mobile */
-@media (max-width: 768px) {
   button {
     min-height: 44px;
     min-width: 44px;
   }
 }
 
-/* Prevent overflow on small screens */
-@media (max-width: 480px) {
+/* Medium devices (640px - 1023px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+  html {
+    font-size: 15px;
+  }
+  button {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Large devices (1024px - 1535px) */
+@media (min-width: 1024px) and (max-width: 1535px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Extra large devices (1536px+) - iPhone 15 Pro Max, tablets, desktops */
+@media (min-width: 1536px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+/* iPhone 15 Pro Max specific (430px width in landscape, 932px in portrait) */
+@media (max-width: 480px) and (orientation: portrait) {
   main {
     overflow-x: hidden;
   }
   body {
     overflow-x: hidden;
+  }
+}
+
+@media (min-width: 900px) {
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* Prevent overflow on all small screens */
+@media (max-width: 768px) {
+  main {
+    overflow-x: hidden;
+  }
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Safe area adjustments for notch devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+}
+
+/* Print styles */
+@media print {
+  body::before {
+    display: none;
   }
 }

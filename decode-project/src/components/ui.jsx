@@ -7,7 +7,7 @@ import { C, rgba } from "../theme";
 /* glyphs into the final word, echoing "Descriptografando a Violência" */
 /* ------------------------------------------------------------------ */
 const DECODE_GLYPHS = "!<>-_\\/[]{}=+*^?#01";
-export function GlitchTitle({ children, size = "text-5xl" }) {
+export function GlitchTitle({ children, size = "text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl" }) {
   const target = typeof children === "string" ? children : "";
   const [display, setDisplay] = useState(target);
 
@@ -40,8 +40,8 @@ export function GlitchTitle({ children, size = "text-5xl" }) {
 
   return (
     <h1
-      className={`${size} font-black tracking-tight leading-[0.95]`}
-      style={{ color: C.text, fontFamily: "'IBM Plex Mono', monospace", letterSpacing: "-0.02em" }}
+      className={`${size} font-black tracking-tight leading-[0.95] break-words`}
+      style={{ color: C.text, fontFamily: "'IBM Plex Mono', monospace", letterSpacing: "-0.02em", wordBreak: "break-word" }}
       aria-label={target}
     >
       <span aria-hidden="true">{display}</span>
@@ -55,7 +55,7 @@ export function PrimaryButton({ children, onClick, className = "", disabled }) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`px-6 py-3 rounded-lg font-semibold text-sm tracking-wide transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 disabled:opacity-40 ${className}`}
+      className={`px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg font-semibold text-xs xs:text-sm tracking-wide transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 disabled:opacity-40 whitespace-nowrap ${className}`}
       style={{
         background: disabled ? C.lilacDim : `linear-gradient(135deg, ${C.lilac}, #7B2FBF)`,
         color: "#fff",
@@ -71,7 +71,7 @@ export function GhostButton({ children, onClick, className = "" }) {
   return (
     <button
       onClick={onClick}
-      className={`px-6 py-3 rounded-lg font-semibold text-sm tracking-wide border transition-colors focus:outline-none focus-visible:ring-2 ${className}`}
+      className={`px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg font-semibold text-xs xs:text-sm tracking-wide border transition-colors focus:outline-none focus-visible:ring-2 whitespace-nowrap ${className}`}
       style={{ borderColor: C.line, color: C.text, background: "transparent" }}
     >
       {children}
@@ -106,36 +106,36 @@ export function ProgressBar({ value, max, color = C.lilac, label }) {
 
 export function ScreenHeader({ title, subtitle, onBack, right }) {
   return (
-    <div className="flex items-center justify-between gap-2 sm:gap-3 mb-2">
-      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+    <div className="flex items-center justify-between gap-1 xs:gap-2 sm:gap-3 mb-2 xs:mb-3">
+      <div className="flex items-center gap-1 xs:gap-2 sm:gap-3 min-w-0">
         {onBack && (
-          <button onClick={onBack} aria-label="Voltar" className="p-1.5 sm:p-2 rounded-lg border shrink-0 focus:outline-none focus-visible:ring-2" style={{ borderColor: C.line, color: C.text }}>
-            <ChevronLeft size={16} className="sm:w-5 sm:h-5" />
+          <button onClick={onBack} aria-label="Voltar" className="p-1 xs:p-1.5 sm:p-2 rounded-lg border shrink-0 focus:outline-none focus-visible:ring-2" style={{ borderColor: C.line, color: C.text }}>
+            <ChevronLeft size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
           </button>
         )}
-        <h2 className="text-sm sm:text-base md:text-lg font-bold tracking-wide truncate" style={{ color: C.text }}>{title}</h2>
+        <h2 className="text-xs xs:text-sm sm:text-base md:text-lg font-bold tracking-wide truncate" style={{ color: C.text }}>{title}</h2>
       </div>
-      {right && <div className="shrink-0 hidden sm:block">{right}</div>}
+      {right && <div className="shrink-0 hidden sm:block text-xs xs:text-sm">{right}</div>}
     </div>
   );
 }
 
 export function ChapterSubtitle({ children }) {
-  return <p className="text-sm mb-5" style={{ color: C.sub }}>{children}</p>;
+  return <p className="text-xs xs:text-sm mb-3 xs:mb-4 sm:mb-5" style={{ color: C.sub }}>{children}</p>;
 }
 
 /* Small tile used both on the Dashboard and on the story ResultScreen */
 export function ModuleTile({ icon: Icon, title, desc, onClick }) {
   return (
-    <button onClick={onClick} className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border text-left transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2" style={{ background: C.panel2, borderColor: C.line }}>
-      <div className="p-1.5 sm:p-2 rounded-lg shrink-0" style={{ background: rgba(C.lilac, 0.15) }}>
-        <Icon size={16} className="sm:w-5 sm:h-5" style={{ color: C.lilac }} />
+    <button onClick={onClick} className="flex items-center gap-2 xs:gap-2.5 sm:gap-3 p-2.5 xs:p-3 sm:p-4 rounded-xl border text-left transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2" style={{ background: C.panel2, borderColor: C.line }}>
+      <div className="p-1 xs:p-1.5 sm:p-2 rounded-lg shrink-0" style={{ background: rgba(C.lilac, 0.15) }}>
+        <Icon size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5" style={{ color: C.lilac }} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-bold text-xs sm:text-sm truncate" style={{ color: C.text }}>{title}</p>
-        <p className="text-xs leading-tight" style={{ color: C.sub }}>{desc}</p>
+        <p className="font-bold text-2xs xs:text-xs sm:text-sm truncate" style={{ color: C.text }}>{title}</p>
+        <p className="text-2xs xs:text-xs leading-tight" style={{ color: C.sub }}>{desc}</p>
       </div>
-      <ChevronRight size={14} className="ml-2 shrink-0 sm:ml-3 sm:w-4 sm:h-4" style={{ color: C.sub }} />
+      <ChevronRight size={12} className="ml-1 xs:ml-2 shrink-0 sm:ml-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" style={{ color: C.sub }} />
     </button>
   );
 }
