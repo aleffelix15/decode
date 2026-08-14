@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+/* System-chrome labels (nav, eyebrows, buttons) read as terminal/mono —
+   narrative copy stays human (Manrope). This is the app's core visual rule. */
+.tracking-widest,
+.tracking-wide {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* Faint scanline texture, fixed to viewport — a quiet nod to "the system"
+   without competing with the content. Invisible to reduced-motion users
+   since it doesn't animate; kept at very low opacity either way. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+@keyframes decode-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.decode-cursor {
+  display: inline-block;
+  margin-left: 0.06em;
+  animation: decode-blink 1.1s step-end infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .decode-cursor { animation: none; opacity: 1; }
+}
