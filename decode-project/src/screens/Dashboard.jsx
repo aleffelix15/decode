@@ -28,11 +28,11 @@ export function Dashboard({ story, unlockedInsights, go, onPlay }) {
   return (
     <div>
       <ScreenHeader title="" right={null} />
-      <div className="mb-8">
-        <p className="text-2xl font-bold" style={{ color: C.text }}>Olá, Guardiã(o).</p>
-        <p className="text-sm mt-1" style={{ color: C.sub }}>Cada escolha pode ajudar alguém.</p>
+      <div className="mb-6 sm:mb-8">
+        <p className="text-xl sm:text-2xl font-bold" style={{ color: C.text }}>Olá, Guardiã(o).</p>
+        <p className="text-xs sm:text-sm mt-1" style={{ color: C.sub }}>Cada escolha pode ajudar alguém.</p>
       </div>
-      <div className="grid sm:grid-cols-2 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <Panel className="p-4">
           <p className="text-[11px] font-bold tracking-widest mb-2" style={{ color: C.sub }}>SEU PROGRESSO</p>
           <p className="font-bold mb-2" style={{ color: C.text }}>{story.chapter}/5 capítulos</p>
@@ -48,12 +48,12 @@ export function Dashboard({ story, unlockedInsights, go, onPlay }) {
       </div>
 
       <p className="text-xs font-bold tracking-widest mb-3" style={{ color: C.sub }}>JOGAR</p>
-      <div className="max-w-md mb-8">
+      <div className="max-w-md w-full mb-8">
         <StoryEntryCard story={story} onClick={onPlay} />
       </div>
 
       <p className="text-xs font-bold tracking-widest mt-8 mb-3" style={{ color: C.sub }}>OUTROS MÓDULOS</p>
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <ModuleTile icon={Smartphone} title="Arquivos Recuperados" desc="Analise uma conversa real, trecho por trecho" onClick={() => go("recovered")} />
         <ModuleTile icon={Radio} title="O Algoritmo" desc="Identifique quando um feed vira tóxico" onClick={() => go("algorithm")} />
         <ModuleTile icon={FileWarning} title="Arquivos Ocultos" desc="Decodifique frases do dia a dia" onClick={() => go("hiddenfiles")} />

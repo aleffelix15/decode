@@ -106,14 +106,14 @@ export function ProgressBar({ value, max, color = C.lilac, label }) {
 
 export function ScreenHeader({ title, subtitle, onBack, right }) {
   return (
-    <div className="flex items-center justify-between gap-3 mb-2">
-      <div className="flex items-center gap-3 min-w-0">
+    <div className="flex items-center justify-between gap-2 sm:gap-3 mb-2">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         {onBack && (
-          <button onClick={onBack} aria-label="Voltar" className="p-2 rounded-lg border shrink-0 focus:outline-none focus-visible:ring-2" style={{ borderColor: C.line, color: C.text }}>
-            <ChevronLeft size={18} />
+          <button onClick={onBack} aria-label="Voltar" className="p-1.5 sm:p-2 rounded-lg border shrink-0 focus:outline-none focus-visible:ring-2" style={{ borderColor: C.line, color: C.text }}>
+            <ChevronLeft size={16} className="sm:w-5 sm:h-5" />
           </button>
         )}
-        <h2 className="text-base sm:text-lg font-bold tracking-wide truncate" style={{ color: C.text }}>{title}</h2>
+        <h2 className="text-sm sm:text-base md:text-lg font-bold tracking-wide truncate" style={{ color: C.text }}>{title}</h2>
       </div>
       {right && <div className="shrink-0 hidden sm:block">{right}</div>}
     </div>
@@ -127,15 +127,15 @@ export function ChapterSubtitle({ children }) {
 /* Small tile used both on the Dashboard and on the story ResultScreen */
 export function ModuleTile({ icon: Icon, title, desc, onClick }) {
   return (
-    <button onClick={onClick} className="flex items-center gap-3 p-4 rounded-xl border text-left transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2" style={{ background: C.panel2, borderColor: C.line }}>
-      <div className="p-2 rounded-lg shrink-0" style={{ background: rgba(C.lilac, 0.15) }}>
-        <Icon size={18} style={{ color: C.lilac }} />
+    <button onClick={onClick} className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border text-left transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2" style={{ background: C.panel2, borderColor: C.line }}>
+      <div className="p-1.5 sm:p-2 rounded-lg shrink-0" style={{ background: rgba(C.lilac, 0.15) }}>
+        <Icon size={16} className="sm:w-5 sm:h-5" style={{ color: C.lilac }} />
       </div>
-      <div>
-        <p className="font-bold text-sm" style={{ color: C.text }}>{title}</p>
-        <p className="text-xs" style={{ color: C.sub }}>{desc}</p>
+      <div className="flex-1 min-w-0">
+        <p className="font-bold text-xs sm:text-sm truncate" style={{ color: C.text }}>{title}</p>
+        <p className="text-xs leading-tight" style={{ color: C.sub }}>{desc}</p>
       </div>
-      <ChevronRight size={16} className="ml-auto shrink-0" style={{ color: C.sub }} />
+      <ChevronRight size={14} className="ml-2 shrink-0 sm:ml-3 sm:w-4 sm:h-4" style={{ color: C.sub }} />
     </button>
   );
 }

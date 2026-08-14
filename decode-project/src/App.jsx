@@ -130,10 +130,10 @@ export default function App() {
     content = (
       <div className="flex min-h-screen">
         <Sidebar screen={screen} go={go} onExit={() => setExitOpen(true)} />
-        <main ref={mainRef} id="main-content" tabIndex={-1} className="flex-1 p-5 pt-16 md:p-8 pb-24 md:pb-8 max-w-5xl w-full min-w-0 focus:outline-none">{body}</main>
+        <main ref={mainRef} id="main-content" tabIndex={-1} className="flex-1 p-3 sm:p-5 pt-16 sm:pt-20 md:p-8 pb-24 sm:pb-32 md:pb-8 max-w-5xl w-full min-w-0 focus:outline-none">{body}</main>
         <MobileNav screen={screen} go={go} />
-        <button onClick={() => setExitOpen(true)} className="md:hidden fixed top-4 right-4 z-20 px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-1 focus:outline-none focus-visible:ring-2" style={{ background: rgba(C.red, 0.15), color: C.red, border: `1px solid ${rgba(C.red, 0.3)}` }}>
-          <LogOut size={11} aria-hidden="true" /> SAÍDA
+        <button onClick={() => setExitOpen(true)} className="md:hidden fixed top-3 right-3 sm:top-4 sm:right-4 z-20 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold flex items-center gap-1 focus:outline-none focus-visible:ring-2" style={{ background: rgba(C.red, 0.15), color: C.red, border: `1px solid ${rgba(C.red, 0.3)}` }}>
+          <LogOut size={10} aria-hidden="true" className="sm:w-3 sm:h-3" /> SAIR
         </button>
       </div>
     );
