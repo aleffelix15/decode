@@ -1,0 +1,12 @@
+{
+  "buildCommand": "cd decode-project && npm install && npm run build",
+  "devCommand": "cd decode-project && npm run dev",
+  "installCommand": "cd decode-project && npm install",
+  "outputDirectory": "decode-project/dist",
+  "rewrites": [
+    {
+      "source": "(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
