@@ -12,7 +12,7 @@ export function Landing({ onStart, onHow }) {
         </div>
         <GlitchTitle size="text-4xl sm:text-5xl md:text-6xl">DECODE</GlitchTitle>
         <p className="mt-3 text-xs sm:text-sm font-bold tracking-wide" style={{ color: C.lilac }}>DESCRIPTOGRAFANDO A VIOLÊNCIA.</p>
-        <p className="mt-4 text-sm sm:text-base leading-relaxed" style={{ color: C.sub }}>">O bug está no sistema.<br />Ajude a reescrever o código."</p>
+        <p className="mt-4 text-sm sm:text-base leading-relaxed" style={{ color: C.sub }}>"O bug está no sistema.<br />Ajude a reescrever o código."</p>
         <div className="flex items-center justify-center gap-2 mt-6 text-xs font-semibold" style={{ color: rgba(C.lilac, 0.9) }}>
           <div className="w-4 h-4 rounded-full border" style={{ borderColor: C.lilac }} />
           AGOSTO LILÁS
