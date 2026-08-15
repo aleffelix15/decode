@@ -4,10 +4,20 @@
 
 html, body, #root {
   height: 100%;
+  background-color: #06050A;
+}
+
+html {
+  background-color: #06050A;
+  overscroll-behavior-y: none;
 }
 
 body {
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  background-color: #06050A;
+  color: #F8F9FA;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* System-chrome labels (nav, eyebrows, buttons) read as terminal/mono —
@@ -126,12 +136,12 @@ body::before {
   }
 }
 
-/* Safe area adjustments for notch devices */
+/* Safe area adjustments for notch devices — handled inside React layout via
+   env(safe-area-inset-*) on the relevant elements. Keeping body padding here
+   would create a white/dark gutter depending on overscroll state. */
 @supports (padding: max(0px)) {
-  body {
-    padding-left: max(12px, env(safe-area-inset-left));
-    padding-right: max(12px, env(safe-area-inset-right));
-  }
+  /* No body padding — App.jsx already pads the main element and fixed UI
+     (MobileNav, SAIR button, ExitOverlay) directly with safe-area-inset-*. */
 }
 
 /* Print styles */
