@@ -21,9 +21,17 @@ export function ExitOverlay({ onClose }) {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: rgba("#000000", 0.75), backdropFilter: "blur(4px)" }}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{
+        background: rgba("#000000", 0.75),
+        backdropFilter: "blur(4px)",
+        WebkitBackdropFilter: "blur(4px)",
+        padding: "max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) max(1rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px))",
+      }}
+    >
       <Panel
-        className="w-full max-w-sm p-6 relative"
+        className="w-full max-w-sm p-5 sm:p-6 relative"
         role="dialog"
         aria-modal="true"
         aria-labelledby="exit-overlay-title"

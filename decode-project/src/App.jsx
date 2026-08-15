@@ -130,10 +130,30 @@ export default function App() {
     content = (
       <div className="flex min-h-screen w-full">
         <Sidebar screen={screen} go={go} onExit={() => setExitOpen(true)} />
-        <main ref={mainRef} id="main-content" tabIndex={-1} className="flex-1 p-3 xs:p-4 sm:p-5 pt-16 xs:pt-18 sm:pt-20 md:p-8 md:pt-20 lg:p-10 pb-24 xs:pb-28 sm:pb-32 md:pb-8 lg:pb-10 max-w-7xl lg:mx-auto w-full min-w-0 focus:outline-none">{body}</main>
+        <main
+          ref={mainRef}
+          id="main-content"
+          tabIndex={-1}
+          className="flex-1 p-3 xs:p-4 sm:p-5 pt-16 xs:pt-18 sm:pt-20 md:p-8 md:pt-20 lg:p-10 pb-24 xs:pb-28 sm:pb-32 md:pb-8 lg:pb-10 max-w-7xl lg:mx-auto w-full min-w-0 focus:outline-none"
+          style={{
+            paddingTop: "max(4.5rem, calc(4.5rem + env(safe-area-inset-top, 0px)))",
+          }}
+        >{body}</main>
         <MobileNav screen={screen} go={go} />
-        <button onClick={() => setExitOpen(true)} className="md:hidden fixed top-3 right-3 xs:top-3 xs:right-3 sm:top-4 sm:right-4 z-20 px-2 xs:px-2.5 sm:px-3 py-1 xs:py-1 sm:py-1.5 rounded-full text-[8px] xs:text-[9px] sm:text-[10px] font-bold flex items-center gap-0.5 xs:gap-1 focus:outline-none focus-visible:ring-2" style={{ background: rgba(C.red, 0.15), color: C.red, border: `1px solid ${rgba(C.red, 0.3)}` }}>
-          <LogOut size={9} aria-hidden="true" className="xs:w-2.5 xs:h-2.5 sm:w-3 sm:h-3" /> SAIR
+        <button
+          onClick={() => setExitOpen(true)}
+          aria-label="Saída rápida"
+          className="md:hidden fixed right-3 sm:right-4 z-20 min-h-[44px] min-w-[44px] px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-bold flex items-center gap-1 sm:gap-1.5 focus:outline-none focus-visible:ring-2 shadow-lg"
+          style={{
+            top: "max(0.75rem, env(safe-area-inset-top, 0px))",
+            background: rgba(C.red, 0.18),
+            color: C.red,
+            border: `1px solid ${rgba(C.red, 0.4)}`,
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+          }}
+        >
+          <LogOut size={14} aria-hidden="true" className="sm:w-3.5 sm:h-3.5" /> SAIR
         </button>
       </div>
     );
@@ -161,7 +181,12 @@ export default function App() {
       {content}
       {exitOpen && <ExitOverlay onClose={() => setExitOpen(false)} />}
       {screen !== "landing" && screen !== "onboarding" && (
-        <div className="fixed bottom-16 md:bottom-4 left-0 right-0 text-center pointer-events-none">
+        <div
+          className="fixed left-0 right-0 text-center pointer-events-none"
+          style={{
+            bottom: "max(4rem, calc(4rem + env(safe-area-inset-bottom, 0px)))",
+          }}
+        >
           <span className="text-[10px]" style={{ color: rgba(C.sub, 0.6) }}>DECODE · Agosto Lilás — não armazenamos dados pessoais</span>
         </div>
       )}
