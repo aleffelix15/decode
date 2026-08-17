@@ -34,11 +34,11 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
       <div className="sm:hidden mb-4"><ProgressBar value={chapter.n - 1 + (answered ? 1 : 0)} max={5} /></div>
       <ChatShell transition={chapter.transition} messages={chapter.messages} visibleMsgs={visible} typing={typing}>
         {allMsgsShown && !answered && (
-          <Panel className="p-4 max-w-xl">
-            <p className="font-bold text-sm mb-3" style={{ color: C.text }}>{chapter.question}</p>
+          <Panel className="p-3.5 sm:p-4 w-full max-w-xl">
+            <p className="font-bold text-sm mb-3 leading-snug" style={{ color: C.text }}>{chapter.question}</p>
             <div className="flex flex-col gap-2">
               {chapter.options.map((o, i) => (
-                <button key={i} onClick={() => handleChoose(i)} className="text-left px-4 py-3 rounded-lg border text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2" style={{ borderColor: C.line, background: C.panel2, color: C.text }}>
+                <button key={i} onClick={() => handleChoose(i)} className="text-left px-3.5 sm:px-4 py-3 rounded-lg border text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 min-h-[44px] break-words" style={{ borderColor: C.line, background: C.panel2, color: C.text }}>
                   <span className="font-bold mr-2" style={{ color: C.lilac }}>{String.fromCharCode(65 + i)}</span>
                   {o.text}
                 </button>
@@ -52,14 +52,14 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
         )}
 
         {answered && !revealing && (
-          <Panel className="p-4 max-w-xl">
-            <p className="text-sm leading-relaxed" style={{ color: C.text }}>"{opt.reply}"</p>
+          <Panel className="p-3.5 sm:p-4 w-full max-w-xl">
+            <p className="text-sm leading-relaxed break-words" style={{ color: C.text }}>"{opt.reply}"</p>
             {opt.pattern && (
               <div className="flex items-center gap-2 mt-3 p-3 rounded-lg" style={{ background: rgba(C.lilac, 0.1) }}>
                 {INSIGHT_BY_ID[opt.pattern] && (
                   <>
                     {React.createElement(INSIGHT_BY_ID[opt.pattern].icon, { size: 16, style: { color: C.lilac } })}
-                    <span className="text-xs font-semibold" style={{ color: C.text }}>{INSIGHT_BY_ID[opt.pattern].title}</span>
+                    <span className="text-xs font-semibold break-words" style={{ color: C.text }}>{INSIGHT_BY_ID[opt.pattern].title}</span>
                   </>
                 )}
               </div>

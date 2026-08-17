@@ -136,12 +136,27 @@ body::before {
   }
 }
 
-/* Safe area adjustments for notch devices — handled inside React layout via
-   env(safe-area-inset-*) on the relevant elements. Keeping body padding here
-   would create a white/dark gutter depending on overscroll state. */
-@supports (padding: max(0px)) {
-  /* No body padding — App.jsx already pads the main element and fixed UI
-     (MobileNav, SAIR button, ExitOverlay) directly with safe-area-inset-*. */
+/* Tablet portrait & small landscape devices — ensure layouts adapt */
+@media (min-width: 768px) and (max-width: 1023px) {
+  main {
+    max-width: 100%;
+  }
+}
+
+/* iPhone SE / very short screens (height under 600px) — reduce vertical padding */
+@media (max-height: 600px) {
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+}
+
+/* Small landscape phones — avoid content cutoff */
+@media (max-height: 500px) and (orientation: landscape) {
+  main {
+    padding-top: 4rem !important;
+    padding-bottom: 1rem !important;
+  }
 }
 
 /* Print styles */

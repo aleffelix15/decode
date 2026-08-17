@@ -134,7 +134,7 @@ export default function App() {
           ref={mainRef}
           id="main-content"
           tabIndex={-1}
-          className="flex-1 p-3 xs:p-4 sm:p-5 pt-16 xs:pt-18 sm:pt-20 md:p-8 md:pt-20 lg:p-10 pb-24 xs:pb-28 sm:pb-32 md:pb-8 lg:pb-10 max-w-7xl lg:mx-auto w-full min-w-0 focus:outline-none"
+          className="flex-1 p-3 xs:p-4 sm:p-5 pt-16 xs:pt-18 sm:pt-20 md:p-8 md:pt-20 lg:p-10 pb-28 xs:pb-32 sm:pb-36 md:pb-10 lg:pb-10 max-w-7xl lg:mx-auto w-full min-w-0 focus:outline-none"
           style={{
             paddingTop: "max(4.5rem, calc(4.5rem + env(safe-area-inset-top, 0px)))",
           }}
@@ -143,7 +143,7 @@ export default function App() {
         <button
           onClick={() => setExitOpen(true)}
           aria-label="Saída rápida"
-          className="md:hidden fixed right-3 sm:right-4 z-20 min-h-[44px] min-w-[44px] px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-bold flex items-center gap-1 sm:gap-1.5 focus:outline-none focus-visible:ring-2 shadow-lg"
+          className="md:hidden fixed right-3 sm:right-4 z-20 min-h-[40px] min-w-[40px] xs:min-h-[44px] xs:min-w-[44px] px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-bold flex items-center gap-1 sm:gap-1.5 focus:outline-none focus-visible:ring-2 shadow-lg"
           style={{
             top: "max(0.75rem, env(safe-area-inset-top, 0px))",
             background: rgba(C.red, 0.18),
@@ -182,9 +182,9 @@ export default function App() {
       {exitOpen && <ExitOverlay onClose={() => setExitOpen(false)} />}
       {screen !== "landing" && screen !== "onboarding" && (
         <div
-          className="fixed left-0 right-0 text-center pointer-events-none"
+          className="hidden md:block fixed left-0 right-0 text-center pointer-events-none"
           style={{
-            bottom: "max(4rem, calc(4rem + env(safe-area-inset-bottom, 0px)))",
+            bottom: "max(0.5rem, env(safe-area-inset-bottom, 0px))",
           }}
         >
           <span className="text-[10px]" style={{ color: rgba(C.sub, 0.6) }}>DECODE · Agosto Lilás — não armazenamos dados pessoais</span>

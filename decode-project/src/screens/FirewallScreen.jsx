@@ -7,13 +7,13 @@ export function FirewallScreen() {
   return (
     <div>
       <ScreenHeader title="Firewall" />
-      <p className="text-sm mb-4" style={{ color: C.sub }}>Informação em linguagem simples. Para orientação jurídica completa, procure a Defensoria Pública ou a Delegacia da Mulher.</p>
-      <div className="flex flex-col gap-3 max-w-2xl">
+      <p className="text-sm mb-4 leading-relaxed" style={{ color: C.sub }}>Informação em linguagem simples. Para orientação jurídica completa, procure a Defensoria Pública ou a Delegacia da Mulher.</p>
+      <div className="flex flex-col gap-2.5 sm:gap-3 max-w-2xl">
         {FIREWALL_ITEMS.map((it, i) => (
-          <Panel key={i} className="p-4">
+          <Panel key={i} className="p-3.5 sm:p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Lock size={14} style={{ color: C.lilac }} aria-hidden="true" />
-              <p className="font-bold text-sm" style={{ color: C.text }}>{it.title}</p>
+              <Lock size={14} style={{ color: C.lilac }} className="shrink-0" aria-hidden="true" />
+              <p className="font-bold text-sm break-words" style={{ color: C.text }}>{it.title}</p>
             </div>
             <p className="text-xs leading-relaxed" style={{ color: C.sub }}>{it.text}</p>
           </Panel>

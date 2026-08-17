@@ -21,7 +21,7 @@ export function Chapter4({ onDone, onExit }) {
           <PrimaryButton onClick={() => setRevealed(true)} className="w-full max-w-xl">ANALISAR PADRÃO</PrimaryButton>
         )}
         {allShown && revealed && (
-          <Panel className="p-5 max-w-xl">
+          <Panel className="p-4 sm:p-5 w-full max-w-xl">
             <p className="text-[11px] font-bold tracking-widest mb-3" style={{ color: C.lilac }}>PADRÃO DETECTADO</p>
             <div className="flex flex-wrap items-center gap-2 mb-5 text-xs font-semibold" style={{ color: C.text }}>
               <span className="px-2 py-1 rounded" style={{ background: rgba(C.lilac, 0.15) }}>Controle</span>
@@ -33,7 +33,7 @@ export function Chapter4({ onDone, onExit }) {
               <span className="px-2 py-1 rounded" style={{ background: rgba(C.lilac, 0.15) }}>Pedido de desculpas</span>
             </div>
             <p className="text-[11px] font-bold tracking-widest mb-3" style={{ color: C.lilac }}>CICLO DA VIOLÊNCIA</p>
-            <div className="grid grid-cols-4 gap-2 text-center text-[11px] font-semibold mb-4" style={{ color: C.text }}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[11px] font-semibold mb-4" style={{ color: C.text }}>
               <div className="p-2 rounded-lg" style={{ background: C.panel2 }}>TENSÃO</div>
               <div className="p-2 rounded-lg" style={{ background: rgba(C.red, 0.15), color: C.red }}>AGRESSÃO</div>
               <div className="p-2 rounded-lg" style={{ background: C.panel2 }}>RECONCILIAÇÃO</div>

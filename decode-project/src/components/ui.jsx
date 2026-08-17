@@ -7,7 +7,7 @@ import { C, rgba } from "../theme";
 /* glyphs into the final word, echoing "Descriptografando a Violência" */
 /* ------------------------------------------------------------------ */
 const DECODE_GLYPHS = "!<>-_\\/[]{}=+*^?#01";
-export function GlitchTitle({ children, size = "text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl" }) {
+export function GlitchTitle({ children, size = "text-[2rem] xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl" }) {
   const target = typeof children === "string" ? children : "";
   const [display, setDisplay] = useState(target);
 
@@ -40,8 +40,8 @@ export function GlitchTitle({ children, size = "text-3xl xs:text-4xl sm:text-5xl
 
   return (
     <h1
-      className={`${size} font-black tracking-tight leading-[0.95] break-words`}
-      style={{ color: C.text, fontFamily: "'IBM Plex Mono', monospace", letterSpacing: "-0.02em", wordBreak: "break-word" }}
+      className={`${size} font-black tracking-tight leading-[0.95] break-words hyphens-auto`}
+      style={{ color: C.text, fontFamily: "'IBM Plex Mono', monospace", letterSpacing: "-0.02em", wordBreak: "break-word", overflowWrap: "anywhere" }}
       aria-label={target}
     >
       <span aria-hidden="true">{display}</span>
@@ -107,13 +107,18 @@ export function ProgressBar({ value, max, color = C.lilac, label }) {
 export function ScreenHeader({ title, subtitle, onBack, right }) {
   return (
     <div className="flex items-center justify-between gap-1 xs:gap-2 sm:gap-3 mb-2 xs:mb-3">
-      <div className="flex items-center gap-1 xs:gap-2 sm:gap-3 min-w-0">
+      <div className="flex items-center gap-1 xs:gap-2 sm:gap-3 min-w-0 flex-1">
         {onBack && (
-          <button onClick={onBack} aria-label="Voltar" className="p-1 xs:p-1.5 sm:p-2 rounded-lg border shrink-0 focus:outline-none focus-visible:ring-2" style={{ borderColor: C.line, color: C.text }}>
-            <ChevronLeft size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
+          <button
+            onClick={onBack}
+            aria-label="Voltar"
+            className="p-2 xs:p-2.5 sm:p-2.5 rounded-lg border shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center focus:outline-none focus-visible:ring-2"
+            style={{ borderColor: C.line, color: C.text }}
+          >
+            <ChevronLeft size={16} className="xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5" />
           </button>
         )}
-        <h2 className="text-xs xs:text-sm sm:text-base md:text-lg font-bold tracking-wide truncate" style={{ color: C.text }}>{title}</h2>
+        <h2 className="text-sm xs:text-base sm:text-base md:text-lg font-bold tracking-wide truncate" style={{ color: C.text }}>{title}</h2>
       </div>
       {right && <div className="shrink-0 hidden sm:block text-xs xs:text-sm">{right}</div>}
     </div>
@@ -127,15 +132,19 @@ export function ChapterSubtitle({ children }) {
 /* Small tile used both on the Dashboard and on the story ResultScreen */
 export function ModuleTile({ icon: Icon, title, desc, onClick }) {
   return (
-    <button onClick={onClick} className="flex items-center gap-2 xs:gap-2.5 sm:gap-3 p-2.5 xs:p-3 sm:p-4 rounded-xl border text-left transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2" style={{ background: C.panel2, borderColor: C.line }}>
-      <div className="p-1 xs:p-1.5 sm:p-2 rounded-lg shrink-0" style={{ background: rgba(C.lilac, 0.15) }}>
-        <Icon size={14} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5" style={{ color: C.lilac }} />
+    <button
+      onClick={onClick}
+      className="flex items-center gap-2 xs:gap-2.5 sm:gap-3 p-3 xs:p-3.5 sm:p-4 rounded-xl border text-left transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 min-h-[64px]"
+      style={{ background: C.panel2, borderColor: C.line }}
+    >
+      <div className="p-1.5 xs:p-2 rounded-lg shrink-0" style={{ background: rgba(C.lilac, 0.15) }}>
+        <Icon size={16} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5" style={{ color: C.lilac }} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-bold text-2xs xs:text-xs sm:text-sm truncate" style={{ color: C.text }}>{title}</p>
-        <p className="text-2xs xs:text-xs leading-tight" style={{ color: C.sub }}>{desc}</p>
+        <p className="font-bold text-xs xs:text-sm sm:text-sm truncate" style={{ color: C.text }}>{title}</p>
+        <p className="text-[11px] xs:text-xs leading-tight" style={{ color: C.sub }}>{desc}</p>
       </div>
-      <ChevronRight size={12} className="ml-1 xs:ml-2 shrink-0 sm:ml-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" style={{ color: C.sub }} />
+      <ChevronRight size={14} className="ml-1 xs:ml-2 shrink-0 sm:ml-3 xs:w-4 xs:h-4 sm:w-4 sm:h-4" style={{ color: C.sub }} />
     </button>
   );
 }

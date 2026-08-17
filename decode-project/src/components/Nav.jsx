@@ -42,7 +42,7 @@ export function Sidebar({ screen, go, onExit }) {
 export function MobileNav({ screen, go }) {
   return (
     <nav
-      className="md:hidden fixed left-0 right-0 flex justify-around items-center py-2 border-t z-30"
+      className="md:hidden fixed left-0 right-0 flex justify-around items-center py-1.5 sm:py-2 border-t z-30"
       style={{
         bottom: "max(0px, env(safe-area-inset-bottom, 0px))",
         background: C.panel,
@@ -53,9 +53,9 @@ export function MobileNav({ screen, go }) {
       {NAV_ITEMS.map((it) => {
         const active = screen === it.id || (it.id === "levels" && screen === "game");
         return (
-          <button key={it.id} onClick={() => go(it.id)} aria-current={active ? "page" : undefined} className="flex flex-col items-center gap-1 px-2 py-2 min-h-[48px] min-w-[48px] text-[10px] font-medium focus:outline-none" style={{ color: active ? C.lilac : C.sub }}>
-            <it.icon size={19} />
-            {it.label}
+          <button key={it.id} onClick={() => go(it.id)} aria-current={active ? "page" : undefined} className="flex flex-col items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1.5 sm:py-2 min-h-[48px] min-w-[44px] text-[10px] font-medium focus:outline-none focus-visible:ring-2" style={{ color: active ? C.lilac : C.sub }}>
+            <it.icon size={18} className="sm:w-[19px] sm:h-[19px]" />
+            <span className="leading-none">{it.label}</span>
           </button>
         );
       })}

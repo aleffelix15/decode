@@ -6,15 +6,15 @@ export function StoryEntryCard({ story, onClick }) {
   const done = story.finished;
   const chapter = story.chapter; // 0..5
   return (
-    <button onClick={onClick} className="text-left p-5 rounded-xl border w-full transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 relative overflow-hidden" style={{ background: C.panel2, borderColor: C.line }}>
+    <button onClick={onClick} className="text-left p-4 sm:p-5 rounded-xl border w-full transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 relative overflow-hidden" style={{ background: C.panel2, borderColor: C.line }}>
       <div className="absolute inset-0 pointer-events-none opacity-60" style={{ background: `radial-gradient(circle at 90% 0%, ${rgba(C.lilac, 0.18)}, transparent 60%)` }} />
       <div className="relative">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-[10px] font-bold tracking-widest" style={{ color: C.sub }}>JOGO PRINCIPAL</span>
-          <MessageCircle size={16} style={{ color: C.lilac }} />
+        <div className="flex items-center justify-between mb-3 gap-2">
+          <span className="text-[10px] font-bold tracking-widest truncate" style={{ color: C.sub }}>JOGO PRINCIPAL</span>
+          <MessageCircle size={16} style={{ color: C.lilac }} className="shrink-0" />
         </div>
         <p className="font-bold text-base leading-snug" style={{ color: C.text }}>A Terceira Pessoa</p>
-        <p className="text-xs mt-1 mb-4" style={{ color: C.sub }}>Acompanhe a história de Sofia e aprenda a perceber os sinais.</p>
+        <p className="text-xs mt-1 mb-4 leading-relaxed" style={{ color: C.sub }}>Acompanhe a história de Sofia e aprenda a perceber os sinais.</p>
         <ProgressBar value={chapter} max={5} label={`Progresso da história: capítulo ${chapter} de 5`} />
         <p className="text-[11px] mt-1.5 font-semibold" style={{ color: C.sub }}>
           {done ? "História concluída — SISTEMA DECODED" : chapter === 0 ? "Ainda não iniciado" : `Capítulo ${chapter}/5`}
@@ -29,7 +29,7 @@ export function Dashboard({ story, unlockedInsights, go, onPlay }) {
     <div>
       <ScreenHeader title="" right={null} />
       <div className="mb-6 sm:mb-8">
-        <p className="text-xl sm:text-2xl font-bold" style={{ color: C.text }}>Olá, Guardiã(o).</p>
+        <p className="text-lg xs:text-xl sm:text-2xl font-bold leading-tight" style={{ color: C.text }}>Olá, Guardiã(o).</p>
         <p className="text-xs sm:text-sm mt-1" style={{ color: C.sub }}>Cada escolha pode ajudar alguém.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">

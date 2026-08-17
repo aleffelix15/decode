@@ -21,7 +21,7 @@ export function RedFlagText({ fragment, onDiscover }) {
   };
 
   return (
-    <div className="rounded-2xl border p-4" style={{ background: C.panel, borderColor: C.line }}>
+    <div className="rounded-2xl border p-3.5 sm:p-4" style={{ background: C.panel, borderColor: C.line }}>
       <p className="text-[11px] tracking-widest mb-4" style={{ color: C.sub }}>
         {fragment.title}
       </p>

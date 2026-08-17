@@ -31,23 +31,23 @@ export function ExitOverlay({ onClose }) {
       }}
     >
       <Panel
-        className="w-full max-w-sm p-5 sm:p-6 relative"
+        className="w-full max-w-sm p-4 sm:p-5 md:p-6 relative"
         role="dialog"
         aria-modal="true"
         aria-labelledby="exit-overlay-title"
       >
-        <button ref={closeBtnRef} onClick={onClose} aria-label="Fechar" className="absolute top-4 right-4 focus:outline-none focus-visible:ring-2" style={{ color: C.sub }}>
+        <button ref={closeBtnRef} onClick={onClose} aria-label="Fechar" className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1 min-h-[36px] min-w-[36px] flex items-center justify-center focus:outline-none focus-visible:ring-2" style={{ color: C.sub }}>
           <X size={18} />
         </button>
-        <div className="flex items-center gap-2 mb-4" style={{ color: C.red }}>
+        <div className="flex items-center gap-2 mb-3 sm:mb-4" style={{ color: C.red }}>
           <LogOut size={18} />
           <span id="exit-overlay-title" className="font-bold text-sm tracking-wide">SAÍDA RÁPIDA</span>
         </div>
         <p className="text-sm font-semibold mb-1" style={{ color: C.text }}>Precisa sair rápido?</p>
-        <p className="text-xs mb-5" style={{ color: C.sub }}>
+        <p className="text-xs mb-4 sm:mb-5 leading-relaxed" style={{ color: C.sub }}>
           Clique no botão abaixo para sair imediatamente desta página. Isso apenas fecha a experiência — não apaga o histórico do navegador nem garante, por si só, sua segurança digital.
         </p>
-        <button onClick={() => window.open("https://www.google.com", "_blank")} className="w-full py-3 rounded-lg font-bold text-sm mb-3 focus:outline-none focus-visible:ring-2" style={{ background: C.red, color: "#fff" }}>
+        <button onClick={() => window.open("https://www.google.com", "_blank")} className="w-full py-3 rounded-lg font-bold text-sm mb-3 focus:outline-none focus-visible:ring-2 min-h-[44px]" style={{ background: C.red, color: "#fff" }}>
           SAIR AGORA
         </button>
         <p className="text-[11px]" style={{ color: C.sub }}>Você será direcionado(a) para uma nova aba neutra.</p>

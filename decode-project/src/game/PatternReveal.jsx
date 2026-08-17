@@ -11,10 +11,10 @@ export function PatternReveal({ label, onDone }) {
   }, []);
   const labels = ["SCAN...", "DECRYPTING...", "PADRÃO ENCONTRADO"];
   return (
-    <div className="max-w-xl mb-4 px-4 py-3 rounded-lg border" style={{ borderColor: rgba(C.lilac, 0.4), background: rgba(C.lilac, 0.08) }} role="status" aria-live="polite">
-      <p className="text-[11px] font-bold tracking-widest mb-1" style={{ color: C.lilac }}>{labels[phase]}</p>
+    <div className="w-full max-w-xl mb-3 sm:mb-4 px-3.5 sm:px-4 py-3 rounded-lg border" style={{ borderColor: rgba(C.lilac, 0.4), background: rgba(C.lilac, 0.08) }} role="status" aria-live="polite">
+      <p className="text-[10px] sm:text-[11px] font-bold tracking-widest mb-1" style={{ color: C.lilac }}>{labels[phase]}</p>
       {phase === 2 && (
-        <p className="text-sm font-semibold" style={{ color: C.text }}>{label.toUpperCase()} DETECTADO</p>
+        <p className="text-sm font-semibold break-words" style={{ color: C.text }}>{label.toUpperCase()} DETECTADO</p>
       )}
     </div>
   );
