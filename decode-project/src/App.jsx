@@ -22,8 +22,6 @@ import { RecoveredFilesScreen } from "./screens/RecoveredFilesScreen";
 import { TriagemScreen } from "./screens/TriagemScreen";
 import { TimelineScreen } from "./screens/TimelineScreen";
 import { DataLabScreen } from "./screens/DataLabScreen";
-import { BancaModeScreen } from "./screens/BancaModeScreen";
-import { BancaActiveOverlay } from "./components/BancaActiveOverlay";
 
 import { NarrativeGame } from "./game/NarrativeGame";
 import { MarcosStory } from "./game/MarcosStory";
@@ -46,8 +44,6 @@ export default function App() {
   const [profileId, setProfileId] = useState(null);
   const [profileIdMarcos, setProfileIdMarcos] = useState(null);
   const [exitOpen, setExitOpen] = useState(false);
-  const [bancascript, setBancascript] = useState(false);
-  const [bancaStepIdx, setBancaStepIdx] = useState(0);
   const [metricsSofia, setMetricsSofia] = useState({ awareness: 0, support: 0, risk: 0 });
   const [metricsMarcos, setMetricsMarcos] = useState({ awareness: 0, support: 0, risk: 0 });
   const [finalMetricsSofia, setFinalMetricsSofia] = useState(null);
@@ -70,9 +66,6 @@ export default function App() {
         clearTimeout(escTimer.current);
         escTimer.current = setTimeout(() => (escCount.current = 0), 1200);
         if (escCount.current >= 3) { setExitOpen(true); escCount.current = 0; }
-      }
-      if (e.shiftKey && (e.key === "B" || e.key === "b")) {
-        if (screen !== "landing" && screen !== "onboarding") setScreen("banca");
       }
     };
     window.addEventListener("keydown", onKey);
@@ -198,11 +191,11 @@ export default function App() {
     content = <Onboarding onDone={() => setScreen("dashboard")} />;
   } else {
     let body;
-    if (screen === "dashboard") body = <Dashboard storySofia={storySofia} storyMarcos={storyMarcos} unlockedInsights={unlockedInsights} go={go} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} onTriagem={() => go("triagem")} onDataLab={() => go("datalab")} onBanca={() => go("banca")} />;
+    if (screen === "dashboard") body = <Dashboard storySofia={storySofia} storyMarcos={storyMarcos} unlockedInsights={unlockedInsights} go={go} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} onTriagem={() => go("triagem")} onDataLab={() => go("datalab")} />;
     else if (screen === "levels") body = <CaseSelectScreen storySofia={storySofia} storyMarcos={storyMarcos} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} />;
     else if (screen === "insights") body = <InsightsScreen unlockedInsights={unlockedInsights} />;
     else if (screen === "shield") body = <ShieldScreen storySofia={storySofia} storyMarcos={storyMarcos} unlockedInsights={unlockedInsights} />;
-    else if (screen === "help") body = <HelpScreen onBanca={() => go("banca")} />;
+    else if (screen === "help") body = <HelpScreen />;
     else if (screen === "algorithm") body = <AlgorithmScreen />;
     else if (screen === "hiddenfiles") body = <HiddenFilesScreen />;
     else if (screen === "firewall") body = <FirewallScreen />;
@@ -211,7 +204,6 @@ export default function App() {
     else if (screen === "recovered") body = <RecoveredFilesScreen onDiscover={unlockPattern} />;
     else if (screen === "triagem") body = <TriagemScreen />;
     else if (screen === "timeline") body = <TimelineScreen />;
-    else if (screen === "banca") body = <BancaModeScreen go={go} running={bancascript} setRunning={setBancascript} stepIdx={bancaStepIdx} setStepIdx={setBancaStepIdx} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} />;
     else if (screen === "game") {
       const onExit = () => setScreen("dashboard");
       if (activeCase === "marcos") {
@@ -307,7 +299,6 @@ export default function App() {
           <span className="text-[10px]" style={{ color: rgba(C.sub, 0.6) }}>DECODE · Agosto Lilás — não armazenamos dados pessoais</span>
         </div>
       )}
-      <BancaActiveOverlay running={bancascript} setRunning={setBancascript} go={go} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} stepIdx={bancaStepIdx} setStepIdx={setBancaStepIdx} />
     </div>
   );
 }

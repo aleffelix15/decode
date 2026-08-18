@@ -1,4 +1,4 @@
-import { MessageCircle, ShieldCheck, Radio, FileWarning, Lock, BarChart3, Smartphone, Crosshair, Zap, Clock, Presentation } from "lucide-react";
+import { MessageCircle, ShieldCheck, Radio, FileWarning, Lock, BarChart3, Smartphone, Zap, Clock } from "lucide-react";
 import { C, rgba } from "../theme";
 import { ScreenHeader, Panel, ProgressBar } from "../components/ui";
 import { SectionEyebrow } from "../components/SectionEyebrow";
@@ -25,7 +25,7 @@ export function StoryEntryCard({ tag, title, desc, story, onClick, accent = C.li
   );
 }
 
-export function Dashboard({ storySofia, storyMarcos, unlockedInsights, go, onPlaySofia, onPlayMarcos, onTriagem, onDataLab, onBanca }) {
+export function Dashboard({ storySofia, storyMarcos, unlockedInsights, go, onPlaySofia, onPlayMarcos, onTriagem, onDataLab }) {
   const totalInsights = unlockedInsights.size;
   const totalChapters = (storySofia.finished ? 5 : storySofia.chapter) + (storyMarcos.finished ? 5 : storyMarcos.chapter);
   return (
@@ -36,7 +36,7 @@ export function Dashboard({ storySofia, storyMarcos, unlockedInsights, go, onPla
         <p className="text-xs sm:text-sm mt-1" style={{ color: C.sub }}>Cada escolha pode ajudar alguém. Cada padrão, uma chave.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <Panel className="p-4 flex items-center gap-4">
           <ProgressRing value={totalChapters} max={10} size={64} stroke={6} label={`${totalChapters} de 10 capítulos jogados`} />
           <div>
@@ -52,17 +52,6 @@ export function Dashboard({ storySofia, storyMarcos, unlockedInsights, go, onPla
             <p className="text-[10px] mt-0.5" style={{ color: C.sub }}>6 de Sofia + 5 de Marcos</p>
           </div>
           <ShieldCheck size={28} style={{ color: C.lilac }} aria-hidden="true" />
-        </Panel>
-        <Panel className="p-4 flex flex-col justify-center">
-          <p className="text-[11px] font-bold tracking-widest mb-2" style={{ color: C.sub }}>MODO BANCA</p>
-          <p className="text-xs leading-snug mb-2" style={{ color: C.sub }}>Tour guiado de ~5 min para apresentação.</p>
-          <button
-            onClick={onBanca}
-            className="self-start inline-flex items-center gap-1.5 text-xs font-bold tracking-wide px-3 py-1.5 rounded-lg focus:outline-none focus-visible:ring-2 min-h-[36px]"
-            style={{ background: rgba(C.lilac, 0.18), color: C.lilac, border: `1px solid ${rgba(C.lilac, 0.4)}` }}
-          >
-            <Presentation size={12} aria-hidden="true" /> ABRIR ROTEIRO
-          </button>
         </Panel>
       </div>
 
@@ -97,9 +86,8 @@ export function Dashboard({ storySofia, storyMarcos, unlockedInsights, go, onPla
       </div>
 
       <div className="mb-3"><SectionEyebrow color={C.green} accent>DECODE // MÓDULO — DADOS</SectionEyebrow></div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4">
         <ModuleCard icon={BarChart3} title="DataLab" desc="Visualizações interativas dos dados" onClick={onDataLab} accent={C.green} />
-        <ModuleCard icon={Presentation} title="Modo Banca" desc="Roteiro de demonstração" onClick={onBanca} accent={C.lilac} />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-import { Presentation } from "lucide-react";
+
 import { C, rgba } from "../theme";
 import { ScreenHeader, Panel, PrimaryButton } from "../components/ui";
 
-export function HelpScreen({ onBanca }) {
+export function HelpScreen() {
   return (
     <div>
       <ScreenHeader title="Ajuda" />
@@ -22,14 +22,6 @@ export function HelpScreen({ onBanca }) {
         <Panel className="p-3.5 sm:p-4">
           <p className="font-bold text-sm mb-2" style={{ color: C.text }}>Precisa de ajuda real, agora?</p>
           <p className="text-xs leading-relaxed" style={{ color: C.sub }}>Ligue 180 (Central de Atendimento à Mulher) ou 190 em emergências. Use o botão SAÍDA RÁPIDA (ESC×3) a qualquer momento.</p>
-        </Panel>
-        <Panel className="p-3.5 sm:p-4" style={{ borderColor: rgba(C.lilac, 0.5) }}>
-          <div className="flex items-center gap-2 mb-2">
-            <Presentation size={14} style={{ color: C.lilac }} aria-hidden="true" />
-            <p className="font-bold text-sm" style={{ color: C.text }}>Modo Banca</p>
-          </div>
-          <p className="text-xs leading-relaxed mb-3" style={{ color: C.sub }}>Tour guiado de ~5 min para apresentações. Também acessível por Shift+B.</p>
-          <PrimaryButton onClick={onBanca} className="w-full text-xs">ABRIR MODO BANCA</PrimaryButton>
         </Panel>
       </div>
     </div>
