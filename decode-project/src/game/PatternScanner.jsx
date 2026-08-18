@@ -22,9 +22,9 @@ function ScannerList({ items }) {
   );
 }
 
-export function PatternScanner({ detected }) {
+export function PatternScanner({ detected, concepts = REPORT_CONCEPTS }) {
   const [open, setOpen] = useState(false);
-  const items = REPORT_CONCEPTS.filter((c) => detected.has(c.id));
+  const items = concepts.filter((c) => detected.has(c.id));
   return (
     <>
       {/* desktop */}

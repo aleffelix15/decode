@@ -60,6 +60,124 @@ body::before {
   .decode-cursor { animation: none; opacity: 1; }
 }
 
+/* ========== DECODE 2.0 — premium dark microdetails ========== */
+
+/* Glow pulse — applied to a freshly unlocked insight or detected pattern.
+   Subtle enough not to feel like a notification, strong enough to catch
+   the eye on a second pass. */
+@keyframes decode-glow-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(157,78,221,0.45); }
+  60%  { box-shadow: 0 0 0 12px rgba(157,78,221,0); }
+  100% { box-shadow: 0 0 0 0 rgba(157,78,221,0); }
+}
+.decode-glow-pulse {
+  animation: decode-glow-pulse 1.6s ease-out 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .decode-glow-pulse { animation: none; }
+}
+
+/* Shimmer — a thin scanline that crosses the DECODE word once on mount.
+   Reinforces the "decoding" metaphor without competing with the glitch. */
+@keyframes decode-shimmer {
+  0%   { transform: translateX(-110%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(110%); opacity: 0; }
+}
+.decode-shimmer-host {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+.decode-shimmer {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0;
+  width: 30%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(199, 125, 255, 0.45) 50%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  animation: decode-shimmer 1.8s ease-out 0.4s 1;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .decode-shimmer { display: none; }
+}
+
+/* Particle float — used by <ParticleField>. Each particle is a small
+   dot with its own --x, --delay, --size set inline; CSS just animates
+   the rise. They never overlap content (pointer-events: none on host). */
+@keyframes decode-particle-float {
+  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+  10%  { opacity: 0.7; }
+  100% { transform: translate3d(var(--dx, 12px), -110vh, 0); opacity: 0; }
+}
+.decode-particle {
+  position: absolute;
+  bottom: -8px;
+  left: var(--x, 50%);
+  width: var(--size, 3px);
+  height: var(--size, 3px);
+  border-radius: 9999px;
+  background: rgba(199, 125, 255, 0.85);
+  box-shadow: 0 0 8px rgba(157, 78, 221, 0.6);
+  pointer-events: none;
+  animation: decode-particle-float var(--dur, 9s) linear var(--delay, 0s) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .decode-particle { animation: none; opacity: 0.4; }
+}
+
+/* Progress ring fill — animates the stroke-dashoffset on the
+   <ProgressRing>'s foreground circle. */
+@keyframes decode-ring-fill {
+  from { stroke-dashoffset: var(--ring-from, 999); }
+  to   { stroke-dashoffset: var(--ring-to, 0); }
+}
+.decode-ring-fg {
+  transition: stroke-dashoffset 0.9s cubic-bezier(.22,.61,.36,1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .decode-ring-fg { transition: none; }
+}
+
+/* Backdrop stage — slow gradient shift on the page. Kept long so it
+   doesn't distract from content. */
+@keyframes decode-backdrop-shift {
+  0%   { opacity: 0; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.decode-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  animation: decode-backdrop-shift 0.55s cubic-bezier(.22,.61,.36,1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .decode-backdrop { animation: none; }
+}
+
+/* Tiny lift on hover for cards — 0.5px translateY + brighter border.
+   Combined with a short transition it feels "premium" without being loud. */
+.decode-card {
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.decode-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(199, 125, 255, 0.55) !important;
+  box-shadow: 0 8px 24px rgba(6, 5, 10, 0.5), 0 0 0 1px rgba(157, 78, 221, 0.18);
+}
+@media (prefers-reduced-motion: reduce) {
+  .decode-card { transition: none; }
+  .decode-card:hover { transform: none; }
+}
+
 /* ========== RESPONSIVE TYPOGRAPHY & SIZING ========== */
 
 /* Extra small devices (320px - 374px) */

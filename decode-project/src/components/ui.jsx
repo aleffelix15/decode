@@ -40,11 +40,12 @@ export function GlitchTitle({ children, size = "text-[2rem] xs:text-4xl sm:text-
 
   return (
     <h1
-      className={`${size} font-black tracking-tight leading-[0.95] break-words hyphens-auto`}
+      className={`${size} font-black tracking-tight leading-[0.95] break-words hyphens-auto decode-shimmer-host`}
       style={{ color: C.text, fontFamily: "'IBM Plex Mono', monospace", letterSpacing: "-0.02em", wordBreak: "break-word", overflowWrap: "anywhere" }}
       aria-label={target}
     >
       <span aria-hidden="true">{display}</span>
+      <span className="decode-shimmer" aria-hidden="true" />
       <span className="decode-cursor" aria-hidden="true" style={{ color: C.lilac }}>_</span>
     </h1>
   );
