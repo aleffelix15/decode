@@ -1,68 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { Play, Square, ChevronRight, Clock, SkipForward, Sparkles } from "lucide-react";
+import { Play, Square, ChevronRight, Sparkles } from "lucide-react";
 import { C, rgba } from "../theme";
-import { ScreenHeader, Panel, PrimaryButton, GhostButton } from "../components/ui";
+import { ScreenHeader, Panel, PrimaryButton } from "../components/ui";
 import { SectionEyebrow } from "../components/SectionEyebrow";
+import { BANCASCRIPT } from "../components/BancaActiveOverlay";
 
-/* Guided tour for the day-of-presentation. Each step is a `go(target)`
-   with a recommended dwell time (seconds). The user can press "Iniciar
-   roteiro" and the app will walk through each step automatically,
-   or click any step manually. Timer cancels on unmount or stop. */
-const SCRIPT = [
-  { n: 1, title: "Landing", target: "landing", seconds: 25, why: "Glitch + tagline + 'O bug está no sistema'." },
-  { n: 2, title: "Caso Sofia — Cap 1 → 2", target: "sofia-1-2", seconds: 75, why: "Mostrar escolha + PatternReveal. Dois capítulos de uma vez." },
-  { n: 3, title: "Caso Marcos — Cap 1 (stalking)", target: "marcos-1", seconds: 60, why: "Diferenciar: o ciclo começa antes do namoro ou após o término." },
-  { n: 4, title: "Triagem Rápida", target: "triagem", seconds: 60, why: "Mini-game: a banca vê 3 rodadas e a animação de acerto/erro." },
-  { n: 5, title: "Linha do Tempo", target: "timeline", seconds: 60, why: "Reordenar 6 eventos + análise da escalada." },
-  { n: 6, title: "DataLab", target: "datalab", seconds: 60, why: "Gráficos SVG e fonte oficial. O dado fecha a narrativa." },
-  { n: 7, title: "Escudo + 180", target: "shield", seconds: 30, why: "Encerrar com o canal de proteção: ligue 180." },
-];
-
-export function BancaModeScreen({ go, running, setRunning, onPlaySofia, onPlayMarcos }) {
-  const [stepIdx, setStepIdx] = useState(0);
-  const [remaining, setRemaining] = useState(SCRIPT[0].seconds);
-  const tickRef = useRef(null);
-  const timeoutRef = useRef(null);
-
-  const advance = (idx) => {
-    const step = SCRIPT[idx];
-    if (!step) {
-      setRunning(false);
-      return;
-    }
-    if (step.target === "sofia-1-2") {
-      onPlaySofia();
-    } else if (step.target === "marcos-1") {
-      onPlayMarcos();
-    } else {
-      go(step.target);
-    }
-    setRemaining(step.seconds);
-  };
-
-  useEffect(() => {
-    if (!running) return;
-    advance(stepIdx);
-    tickRef.current = setInterval(() => {
-      setRemaining((r) => Math.max(0, r - 1));
-    }, 1000);
-    return () => {
-      clearInterval(tickRef.current);
-      clearTimeout(timeoutRef.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [running, stepIdx]);
-
-  useEffect(() => {
-    if (!running) return;
-    if (remaining > 0) return;
-    // Auto-advance to next step
-    timeoutRef.current = setTimeout(() => {
-      setStepIdx((i) => (i + 1 < SCRIPT.length ? i + 1 : SCRIPT.length - 1));
-    }, 0);
-    return () => clearTimeout(timeoutRef.current);
-  }, [remaining, running]);
-
+export function BancaModeScreen({ running, setRunning, stepIdx, setStepIdx, go, onPlaySofia, onPlayMarcos }) {
   const start = () => {
     setStepIdx(0);
     setRunning(true);
@@ -70,19 +12,12 @@ export function BancaModeScreen({ go, running, setRunning, onPlaySofia, onPlayMa
   const stop = () => {
     setRunning(false);
     setStepIdx(0);
-    setRemaining(SCRIPT[0].seconds);
-  };
-  const skip = () => {
-    if (stepIdx + 1 < SCRIPT.length) setStepIdx(stepIdx + 1);
-    else stop();
   };
   const jump = (i) => {
     setStepIdx(i);
-    if (running) {
-      setRemaining(SCRIPT[i].seconds);
-    } else {
-      // manual jump: go to the target immediately
-      const step = SCRIPT[i];
+    if (!running) {
+      // manual jump: go to the target immediately without starting the full script
+      const step = BANCASCRIPT[i];
       if (step.target === "sofia-1-2") {
         onPlaySofia();
       } else if (step.target === "marcos-1") {
@@ -92,8 +27,6 @@ export function BancaModeScreen({ go, running, setRunning, onPlaySofia, onPlayMa
       }
     }
   };
-
-  const current = SCRIPT[Math.min(stepIdx, SCRIPT.length - 1)];
 
   return (
     <div>
@@ -106,30 +39,10 @@ export function BancaModeScreen({ go, running, setRunning, onPlaySofia, onPlayMa
       </p>
 
       <Panel className="p-4 sm:p-5 mb-5 sm:mb-6" style={{ borderColor: rgba(C.lilac, 0.5) }}>
-        <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
-          <div>
-            <p className="text-[10px] sm:text-[11px] font-bold tracking-widest" style={{ color: C.lilac }}>PASSO ATUAL</p>
-            <p className="font-bold text-base sm:text-lg mt-0.5" style={{ color: C.text }}>
-              {current.n}. {current.title}
-            </p>
-          </div>
-          <div
-            className="px-3 py-1.5 rounded-lg font-black text-sm sm:text-base"
-            style={{
-              background: rgba(C.lilac, 0.15),
-              color: C.lilac,
-              fontFamily: "'IBM Plex Mono', monospace",
-              minWidth: "5.5rem",
-              textAlign: "center",
-            }}
-            aria-label={`Tempo restante: ${remaining} segundos`}
-          >
-            <Clock size={12} aria-hidden="true" className="inline -mt-0.5 mr-1" />
-            {String(Math.floor(remaining / 60)).padStart(2, "0")}:{String(remaining % 60).padStart(2, "0")}
-          </div>
-        </div>
-        <p className="text-xs leading-relaxed" style={{ color: C.sub }}>{current.why}</p>
-        <div className="mt-4 flex flex-wrap gap-2 sm:gap-2.5">
+        <p className="text-xs leading-relaxed mb-4" style={{ color: C.sub }}>
+          Ao iniciar, um controlador flutuante aparecerá na parte inferior da tela, guiando você pelos passos e cronometrando o tempo automaticamente.
+        </p>
+        <div className="flex flex-wrap gap-2 sm:gap-2.5">
           {!running ? (
             <PrimaryButton onClick={start} className="flex items-center gap-1.5">
               <Play size={12} aria-hidden="true" /> INICIAR ROTEIRO
@@ -139,16 +52,13 @@ export function BancaModeScreen({ go, running, setRunning, onPlaySofia, onPlayMa
               <Square size={12} aria-hidden="true" /> PARAR
             </PrimaryButton>
           )}
-          <GhostButton onClick={skip} className="flex items-center gap-1.5">
-            <SkipForward size={12} aria-hidden="true" /> PULAR PASSO
-          </GhostButton>
         </div>
       </Panel>
 
       <p className="text-xs font-bold tracking-widest mb-3" style={{ color: C.sub }}>ROTEIRO COMPLETO</p>
       <ol className="flex flex-col gap-2 max-w-2xl">
-        {SCRIPT.map((s, i) => {
-          const active = i === stepIdx;
+        {BANCASCRIPT.map((s, i) => {
+          const active = running && i === stepIdx;
           return (
             <li key={s.n}>
               <button
