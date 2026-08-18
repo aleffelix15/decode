@@ -8,12 +8,12 @@ import { CHAPTERS } from "../data";
 
 /* Orchestrates chapters 1–5 + the final result screen, keyed off the
    numeric/"intro"/"result" storyStage owned by the top-level App. */
-export function NarrativeGame({ stage, detected, onChapterDone, onExit, onModule, profileId }) {
+export function NarrativeGame({ stage, detected, onChapterDone, onExit, onModule, profileId, metrics }) {
   if (stage === "intro") {
     return <StoryIntro onStart={() => onChapterDone("start")} onExit={onExit} />;
   }
   if (stage === "result") {
-    return <ResultScreen detected={detected} profileId={profileId} onModule={onModule} onDashboard={onExit} />;
+    return <ResultScreen detected={detected} profileId={profileId} metrics={metrics} onModule={onModule} onDashboard={onExit} />;
   }
 
   let chapterBody = null;

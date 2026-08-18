@@ -18,7 +18,7 @@ const SCRIPT = [
   { n: 7, title: "Escudo + 180", target: "shield", seconds: 30, why: "Encerrar com o canal de proteção: ligue 180." },
 ];
 
-export function BancaModeScreen({ go, running, setRunning }) {
+export function BancaModeScreen({ go, running, setRunning, onPlaySofia, onPlayMarcos }) {
   const [stepIdx, setStepIdx] = useState(0);
   const [remaining, setRemaining] = useState(SCRIPT[0].seconds);
   const tickRef = useRef(null);
@@ -31,12 +31,9 @@ export function BancaModeScreen({ go, running, setRunning }) {
       return;
     }
     if (step.target === "sofia-1-2") {
-      // Open Sofia cap 1; user can press next to continue to cap 2.
-      go("dashboard");
-      setTimeout(() => go("game"), 50);
+      onPlaySofia();
     } else if (step.target === "marcos-1") {
-      go("dashboard");
-      setTimeout(() => go("marcos-open"), 50);
+      onPlayMarcos();
     } else {
       go(step.target);
     }
@@ -87,9 +84,9 @@ export function BancaModeScreen({ go, running, setRunning }) {
       // manual jump: go to the target immediately
       const step = SCRIPT[i];
       if (step.target === "sofia-1-2") {
-        go("levels");
+        onPlaySofia();
       } else if (step.target === "marcos-1") {
-        go("levels");
+        onPlayMarcos();
       } else {
         go(step.target);
       }

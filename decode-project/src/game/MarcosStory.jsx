@@ -10,13 +10,14 @@ import { CHAPTERS_B, REPORT_CONCEPTS_B } from "../data";
    stage key prefix ("b"), so the parent's storyStage tracks both cases
    independently. The "intro" / "result" sentinel values stay the same
    so the parent App.jsx can keep a single storyStage. */
-export function MarcosStory({ stage, detected, profileId, onChapterDone, onExit, onModule }) {
+export function MarcosStory({ stage, detected, profileId, onChapterDone, onExit, onModule, metrics }) {
   if (stage === "b-intro") return <StoryIntro label="MARCOS" onStart={() => onChapterDone("b-start")} onExit={onExit} />;
   if (stage === "b-result") {
     return (
       <ResultScreen
         detected={detected}
         profileId={profileId}
+        metrics={metrics}
         onModule={onModule}
         onDashboard={onExit}
         concepts={REPORT_CONCEPTS_B}

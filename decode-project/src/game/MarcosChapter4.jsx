@@ -23,7 +23,7 @@ export function MarcosChapter4({ onDone, onExit }) {
       />
       <ChapterSubtitle>{ch.title}</ChapterSubtitle>
       <div className="sm:hidden mb-4"><ProgressBar value={allShown ? 4 : 3} max={5} /></div>
-      <ChatShell transition={ch.transition} messages={ch.messages} visibleMsgs={visible} typing={typing}>
+      <ChatShell transition={ch.transition} messages={ch.messages} visibleMsgs={visible} typing={typing} name="Camila" initial="C">
         {allShown && !revealed && (
           <PrimaryButton onClick={() => setRevealed(true)} className="w-full max-w-xl">ANALISAR PADRÃO</PrimaryButton>
         )}

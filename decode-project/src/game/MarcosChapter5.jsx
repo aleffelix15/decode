@@ -30,7 +30,7 @@ export function MarcosChapter5({ onDone, onExit }) {
       <ScreenHeader title="Capítulo 5/5" onBack={onExit} right={<div className="w-24"><ProgressBar value={4} max={5} /></div>} />
       <ChapterSubtitle>{ch.title}</ChapterSubtitle>
       <div className="sm:hidden mb-4"><ProgressBar value={4} max={5} /></div>
-      <ChatShell transition={null} messages={ch.messages} visibleMsgs={visible} typing={typing}>
+      <ChatShell transition={null} messages={ch.messages} visibleMsgs={visible} typing={typing} name="Camila" initial="C">
         {allShown && !confirmed && (
           <Panel className="p-3.5 sm:p-4 w-full max-w-xl">
             <p className="font-bold text-sm mb-1 tracking-wide leading-snug" style={{ color: C.text }}>{ch.question}</p>

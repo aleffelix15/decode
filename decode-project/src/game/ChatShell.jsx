@@ -4,7 +4,7 @@ import { Panel } from "../components/ui";
 /* Shared bubble/typing rendering for every chat-style chapter. The
    message list is a polite live region so screen-reader users hear
    each new line as it arrives, the same way a sighted user sees it. */
-export function ChatShell({ transition, messages, visibleMsgs, typing, children }) {
+export function ChatShell({ transition, messages, visibleMsgs, typing, children, name = "Sofia", initial = "S" }) {
   return (
     <div>
       {transition && (
@@ -12,9 +12,9 @@ export function ChatShell({ transition, messages, visibleMsgs, typing, children 
       )}
       <Panel className="p-3.5 sm:p-4 mb-3 sm:mb-4 max-w-xl">
         <div className="flex items-center gap-2 mb-3 sm:mb-4 pb-3 border-b" style={{ borderColor: C.line }}>
-          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0" style={{ background: rgba(C.lilac, 0.25), color: C.text }} aria-hidden="true">S</div>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0" style={{ background: rgba(C.lilac, 0.25), color: C.text }} aria-hidden="true">{initial}</div>
           <div className="min-w-0">
-            <p className="text-sm font-bold" style={{ color: C.text }}>Sofia</p>
+            <p className="text-sm font-bold" style={{ color: C.text }}>{name}</p>
             <p className="text-[11px]" style={{ color: C.green }}><span aria-hidden="true">●</span> online</p>
           </div>
         </div>
@@ -23,7 +23,7 @@ export function ChatShell({ transition, messages, visibleMsgs, typing, children 
             <div key={i} className="self-start max-w-[88%] sm:max-w-[85%] px-3 py-2 rounded-xl rounded-tl-sm text-sm break-words" style={{ background: C.panel2, color: C.text }}>{m}</div>
           ))}
           {typing && (
-            <div className="self-start px-3 py-2 rounded-xl rounded-tl-sm text-xs italic" style={{ background: C.panel2, color: C.sub }}>Sofia está digitando...</div>
+            <div className="self-start px-3 py-2 rounded-xl rounded-tl-sm text-xs italic" style={{ background: C.panel2, color: C.sub }}>{name} está digitando...</div>
           )}
         </div>
       </Panel>

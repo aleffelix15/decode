@@ -13,6 +13,10 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
 
   useEffect(() => { setChoice(null); setRevealing(false); }, [chapter.key]);
 
+  const isMarcos = chapter.key.startsWith("b");
+  const charName = isMarcos ? "Camila" : "Sofia";
+  const charInitial = isMarcos ? "C" : "S";
+
   const answered = choice !== null;
   const opt = answered ? chapter.options[choice] : null;
   const allMsgsShown = visible >= chapter.messages.length;
@@ -32,7 +36,7 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
       />
       <ChapterSubtitle>{chapter.title}</ChapterSubtitle>
       <div className="sm:hidden mb-4"><ProgressBar value={chapter.n - 1 + (answered ? 1 : 0)} max={5} /></div>
-      <ChatShell transition={chapter.transition} messages={chapter.messages} visibleMsgs={visible} typing={typing}>
+      <ChatShell transition={chapter.transition} messages={chapter.messages} visibleMsgs={visible} typing={typing} name={charName} initial={charInitial}>
         {allMsgsShown && !answered && (
           <Panel className="p-3.5 sm:p-4 w-full max-w-xl">
             <p className="font-bold text-sm mb-3 leading-snug" style={{ color: C.text }}>{chapter.question}</p>
@@ -64,7 +68,7 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
                 )}
               </div>
             )}
-            <PrimaryButton onClick={() => onChapterDone(opt.pattern)} className="mt-4 w-full">CONTINUAR</PrimaryButton>
+            <PrimaryButton onClick={() => onChapterDone(opt.pattern, opt.impact)} className="mt-4 w-full">CONTINUAR</PrimaryButton>
           </Panel>
         )}
       </ChatShell>

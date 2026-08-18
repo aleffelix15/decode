@@ -46,6 +46,10 @@ export default function App() {
   const [profileIdMarcos, setProfileIdMarcos] = useState(null);
   const [exitOpen, setExitOpen] = useState(false);
   const [bancascript, setBancascript] = useState(false);
+  const [metricsSofia, setMetricsSofia] = useState({ awareness: 0, support: 0, risk: 0 });
+  const [metricsMarcos, setMetricsMarcos] = useState({ awareness: 0, support: 0, risk: 0 });
+  const [finalMetricsSofia, setFinalMetricsSofia] = useState(null);
+  const [finalMetricsMarcos, setFinalMetricsMarcos] = useState(null);
   const escCount = useRef(0);
   const escTimer = useRef(null);
 
@@ -102,15 +106,18 @@ export default function App() {
     else setStage(`b-${storyMarcos.chapter}`);
   };
 
-  const handleChapterDone = (payload) => {
-    if (activeCase === "sofia") handleSofiaChapterDone(payload);
-    else handleMarcosChapterDone(payload);
+  const handleChapterDone = (payload, impact) => {
+    if (activeCase === "sofia") handleSofiaChapterDone(payload, impact);
+    else handleMarcosChapterDone(payload, impact);
   };
 
-  const handleSofiaChapterDone = (payload) => {
+  const handleSofiaChapterDone = (payload, impact) => {
     if (stage === "intro") { setStage(0); return; }
     if (stage === 0 || stage === 1 || stage === 2) {
       unlockPattern(payload);
+      if (impact) {
+        setMetricsSofia((m) => ({ awareness: m.awareness + (impact.awareness || 0), support: m.support + (impact.support || 0), risk: m.risk + (impact.risk || 0) }));
+      }
       const next = stage + 1;
       setStorySofia((s) => ({ ...s, chapter: next }));
       setStage(next);
@@ -131,15 +138,20 @@ export default function App() {
       const total = earlyScore + good - bad;
       const profile = total >= 6 ? "apoio" : total >= 2 ? "alerta" : "invisiveis";
       setProfileId(profile);
+      const allPatterns = ["controle", "privacidade", "isolamento", "psicologica", "ciclo", "manipulacao"].every((id) => detectedSofia.has(id) || id === "manipulacao" && manipulacaoDetected);
+      setFinalMetricsSofia({ ...metricsSofia, good, bad, allPatterns });
       setStorySofia({ chapter: 5, finished: true });
       setStage("result");
     }
   };
 
-  const handleMarcosChapterDone = (payload) => {
+  const handleMarcosChapterDone = (payload, impact) => {
     if (stage === "b-intro") { setStage("b-0"); return; }
     if (stage === "b-0" || stage === "b-1" || stage === "b-2") {
       unlockPattern(payload);
+      if (impact) {
+        setMetricsMarcos((m) => ({ awareness: m.awareness + (impact.awareness || 0), support: m.support + (impact.support || 0), risk: m.risk + (impact.risk || 0) }));
+      }
       const next = Number(stage.slice(2)) + 1;
       setStoryMarcos((s) => ({ ...s, chapter: next }));
       setStage(`b-${next}`);
@@ -159,6 +171,8 @@ export default function App() {
       const total = earlyScore + good - bad;
       const profile = total >= 5 ? "blindada" : total >= 2 ? "alerta" : "acomodada";
       setProfileIdMarcos(profile);
+      const allPatterns = ["stalking", "dependencia", "stalkerware", "chantagem", "ameaca-indireta"].every((id) => detectedMarcos.has(id) || id === "stalkerware" && manipulacaoDetected);
+      setFinalMetricsMarcos({ ...metricsMarcos, good, bad, allPatterns });
       setStoryMarcos({ chapter: 5, finished: true });
       setStage("b-result");
     }
@@ -195,7 +209,7 @@ export default function App() {
     else if (screen === "recovered") body = <RecoveredFilesScreen onDiscover={unlockPattern} />;
     else if (screen === "triagem") body = <TriagemScreen />;
     else if (screen === "timeline") body = <TimelineScreen />;
-    else if (screen === "banca") body = <BancaModeScreen go={go} running={bancascript} setRunning={setBancascript} />;
+    else if (screen === "banca") body = <BancaModeScreen go={go} running={bancascript} setRunning={setBancascript} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} />;
     else if (screen === "game") {
       const onExit = () => setScreen("dashboard");
       if (activeCase === "marcos") {
@@ -204,6 +218,7 @@ export default function App() {
             stage={stage}
             detected={detectedMarcos}
             profileId={profileIdMarcos}
+            metrics={finalMetricsMarcos}
             onChapterDone={handleChapterDone}
             onExit={onExit}
             onModule={onModule}
@@ -215,6 +230,7 @@ export default function App() {
             stage={stage}
             detected={detectedSofia}
             profileId={profileId}
+            metrics={finalMetricsSofia}
             onChapterDone={handleChapterDone}
             onExit={onExit}
             onModule={onModule}
