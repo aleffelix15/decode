@@ -41,11 +41,9 @@ function LineChart({ points, values, label, color = C.lilac, height = 180 }) {
     <svg
       viewBox={`0 0 ${W} ${H}`}
       width="100%"
-      height={H}
       role="img"
       aria-label={label}
-      preserveAspectRatio="none"
-      style={{ display: "block" }}
+      style={{ display: "block", height: "auto" }}
     >
       {/* grid */}
       {yTicks.map((t, i) => (
@@ -95,11 +93,9 @@ function BarChart({ data, label, color = C.lilac, height = 180 }) {
     <svg
       viewBox={`0 0 ${W} ${H}`}
       width="100%"
-      height={H}
       role="img"
       aria-label={label}
-      preserveAspectRatio="none"
-      style={{ display: "block" }}
+      style={{ display: "block", height: "auto" }}
     >
       {/* baseline */}
       <line x1={padL} x2={W - padR} y1={H - padB} y2={H - padB} stroke={rgba(C.lilac, 0.2)} />
