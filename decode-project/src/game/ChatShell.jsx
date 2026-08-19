@@ -20,10 +20,10 @@ export function ChatShell({ transition, messages, visibleMsgs, typing, children,
         </div>
         <div className="flex flex-col gap-2 min-h-[100px]" aria-live="polite" aria-relevant="additions">
           {messages.slice(0, visibleMsgs).map((m, i) => (
-            <div key={i} className="self-start max-w-[88%] sm:max-w-[85%] px-3 py-2 rounded-xl rounded-tl-sm text-sm break-words" style={{ background: C.panel2, color: C.text }}>{m}</div>
+            <div key={i} className="self-start max-w-[88%] sm:max-w-[85%] px-3 py-2 rounded-xl rounded-tl-sm text-sm break-words msg-enter" style={{ background: C.panel2, color: C.text }}>{m}</div>
           ))}
           {typing && (
-            <div className="self-start px-3 py-2 rounded-xl rounded-tl-sm text-xs italic" style={{ background: C.panel2, color: C.sub }}>{name} está digitando...</div>
+            <div className="self-start px-3 py-2 rounded-xl rounded-tl-sm text-xs italic msg-enter" style={{ background: C.panel2, color: C.sub }}>{name} está digitando...</div>
           )}
         </div>
       </Panel>

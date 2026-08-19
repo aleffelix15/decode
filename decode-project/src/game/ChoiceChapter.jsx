@@ -9,9 +9,10 @@ import { INSIGHT_BY_ID } from "../data";
 export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
   const { visible, typing } = useTypedMessages(chapter.messages, chapter.key);
   const [choice, setChoice] = useState(null);
+  const [showConsequence, setShowConsequence] = useState(false);
   const [revealing, setRevealing] = useState(false);
 
-  useEffect(() => { setChoice(null); setRevealing(false); }, [chapter.key]);
+  useEffect(() => { setChoice(null); setShowConsequence(false); setRevealing(false); }, [chapter.key]);
 
   const isMarcos = chapter.key.startsWith("b");
   const charName = isMarcos ? "Camila" : "Sofia";
@@ -22,9 +23,13 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
   const allMsgsShown = visible >= chapter.messages.length;
 
   const handleChoose = (i) => {
+    if (answered) return;
     setChoice(i);
-    const o = chapter.options[i];
-    if (o.pattern) setRevealing(true);
+    setTimeout(() => {
+      setShowConsequence(true);
+      const o = chapter.options[i];
+      if (o.pattern) setRevealing(true);
+    }, 450);
   };
 
   return (
@@ -37,16 +42,32 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
       <ChapterSubtitle>{chapter.title}</ChapterSubtitle>
       <div className="sm:hidden mb-4"><ProgressBar value={chapter.n - 1 + (answered ? 1 : 0)} max={5} /></div>
       <ChatShell transition={chapter.transition} messages={chapter.messages} visibleMsgs={visible} typing={typing} name={charName} initial={charInitial}>
-        {allMsgsShown && !answered && (
-          <Panel className="p-3.5 sm:p-4 w-full max-w-xl">
+        {allMsgsShown && !showConsequence && (
+          <Panel className="p-3.5 sm:p-4 w-full max-w-xl animate-fade-in">
             <p className="font-bold text-sm mb-3 leading-snug" style={{ color: C.text }}>{chapter.question}</p>
             <div className="flex flex-col gap-2">
-              {chapter.options.map((o, i) => (
-                <button key={i} onClick={() => handleChoose(i)} className="text-left px-3.5 sm:px-4 py-3 rounded-lg border text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 min-h-[44px] break-words" style={{ borderColor: C.line, background: C.panel2, color: C.text }}>
-                  <span className="font-bold mr-2" style={{ color: C.lilac }}>{String.fromCharCode(65 + i)}</span>
-                  {o.text}
-                </button>
-              ))}
+              {chapter.options.map((o, i) => {
+                const isSelected = choice === i;
+                const notSelected = answered && !isSelected;
+                return (
+                  <button
+                    key={i}
+                    onClick={() => handleChoose(i)}
+                    className="text-left px-3.5 sm:px-4 py-3 rounded-lg border text-sm font-medium transition-all duration-300 focus:outline-none focus-visible:ring-2 min-h-[44px] break-words"
+                    style={{
+                      borderColor: isSelected ? rgba(C.lilac, 0.7) : C.line,
+                      background: isSelected ? rgba(C.lilac, 0.1) : C.panel2,
+                      color: C.text,
+                      opacity: notSelected ? 0.35 : 1,
+                      transform: notSelected ? "scale(0.98)" : isSelected ? "scale(1.01)" : "none",
+                      boxShadow: isSelected ? `0 0 16px ${rgba(C.lilac, 0.25)}` : "none"
+                    }}
+                  >
+                    <span className="font-bold mr-2" style={{ color: C.lilac }}>{String.fromCharCode(65 + i)}</span>
+                    {o.text}
+                  </button>
+                );
+              })}
             </div>
           </Panel>
         )}
@@ -55,8 +76,8 @@ export function ChoiceChapter({ chapter, detected, onChapterDone, onExit }) {
           <PatternReveal label={chapter.patternLabel} onDone={() => setRevealing(false)} />
         )}
 
-        {answered && !revealing && (
-          <Panel className="p-3.5 sm:p-4 w-full max-w-xl">
+        {showConsequence && answered && !revealing && (
+          <Panel className="p-3.5 sm:p-4 w-full max-w-xl animate-fade-in">
             <p className="text-sm leading-relaxed break-words" style={{ color: C.text }}>"{opt.reply}"</p>
             {opt.pattern && (
               <div className="flex items-center gap-2 mt-3 p-3 rounded-lg" style={{ background: rgba(C.lilac, 0.1) }}>

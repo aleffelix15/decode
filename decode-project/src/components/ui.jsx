@@ -56,7 +56,7 @@ export function PrimaryButton({ children, onClick, className = "", disabled }) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg font-semibold text-xs xs:text-sm tracking-wide transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 disabled:opacity-40 whitespace-nowrap ${className}`}
+      className={`px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg font-semibold text-xs xs:text-sm tracking-wide transition-all duration-150 hover:brightness-110 hover:-translate-y-px active:scale-[0.98] focus:outline-none focus-visible:ring-2 disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:brightness-100 whitespace-nowrap ${className}`}
       style={{
         background: disabled ? C.lilacDim : `linear-gradient(135deg, ${C.lilac}, #7B2FBF)`,
         color: "#fff",
@@ -72,7 +72,7 @@ export function GhostButton({ children, onClick, className = "" }) {
   return (
     <button
       onClick={onClick}
-      className={`px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg font-semibold text-xs xs:text-sm tracking-wide border transition-colors focus:outline-none focus-visible:ring-2 whitespace-nowrap ${className}`}
+      className={`px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg font-semibold text-xs xs:text-sm tracking-wide border transition-all duration-150 hover:-translate-y-px active:scale-[0.98] focus:outline-none focus-visible:ring-2 whitespace-nowrap ${className}`}
       style={{ borderColor: C.line, color: C.text, background: "transparent" }}
     >
       {children}

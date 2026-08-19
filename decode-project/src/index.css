@@ -62,6 +62,79 @@ body::before {
 
 /* ========== DECODE 2.0 — premium dark microdetails ========== */
 
+@keyframes decode-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes decode-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes decode-blur-in {
+  from { opacity: 0; filter: blur(4px); transform: scale(0.98); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: decode-fade-in 0.4s ease-out forwards;
+}
+.animate-slide-up {
+  animation: decode-slide-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.animate-blur-in {
+  animation: decode-blur-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.page-enter {
+  animation: decode-fade-in 0.25s ease-out forwards;
+}
+
+.msg-enter {
+  opacity: 0;
+  animation: decode-slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes decode-scanner-sweep {
+  0% { transform: translateY(-10px); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(120px); opacity: 0; }
+}
+.scanner-container {
+  position: relative;
+  overflow: hidden;
+}
+.scanner-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 24px;
+  background: linear-gradient(to bottom, transparent, rgba(157, 78, 221, 0.15), rgba(157, 78, 221, 0.6));
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: decode-scanner-sweep 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.scanner-glitch {
+  animation: decode-blink 0.15s step-end 2;
+}
+
+@keyframes svg-bar-rise {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.svg-bar {
+  transform-origin: bottom;
+  animation: svg-bar-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in, .animate-slide-up, .animate-blur-in, .page-enter, .msg-enter, .scanner-line, .scanner-glitch, .svg-bar {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
 /* Glow pulse — applied to a freshly unlocked insight or detected pattern.
    Subtle enough not to feel like a notification, strong enough to catch
    the eye on a second pass. */
@@ -166,12 +239,12 @@ body::before {
 /* Tiny lift on hover for cards — 0.5px translateY + brighter border.
    Combined with a short transition it feels "premium" without being loud. */
 .decode-card {
-  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .decode-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(199, 125, 255, 0.55) !important;
-  box-shadow: 0 8px 24px rgba(6, 5, 10, 0.5), 0 0 0 1px rgba(157, 78, 221, 0.18);
+  transform: translateY(-2px) scale(1.005);
+  border-color: rgba(199, 125, 255, 0.6) !important;
+  box-shadow: 0 8px 24px rgba(6, 5, 10, 0.6), 0 0 0 1px rgba(157, 78, 221, 0.25);
 }
 @media (prefers-reduced-motion: reduce) {
   .decode-card { transition: none; }

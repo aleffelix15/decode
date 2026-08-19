@@ -105,11 +105,11 @@ function BarChart({ data, label, color = C.lilac, height = 180 }) {
         const y = H - padB - h;
         return (
           <g key={i}>
-            <rect x={x} y={y} width={barW} height={h} fill={color} rx="3" style={{ filter: `drop-shadow(0 0 4px ${rgba(color, 0.4)})` }} />
-            <text x={x + barW / 2} y={H - padB + 14} textAnchor="middle" fontSize="9" fill={C.sub}>
+            <rect className="svg-bar" x={x} y={y} width={barW} height={h} fill={color} rx="3" style={{ filter: `drop-shadow(0 0 4px ${rgba(color, 0.4)})`, animationDelay: `${i * 100}ms` }} />
+            <text className="animate-fade-in" x={x + barW / 2} y={H - padB + 14} textAnchor="middle" fontSize="9" fill={C.sub} style={{ animationDelay: `${(i * 100) + 300}ms`, animationFillMode: 'both' }}>
               {d.label}
             </text>
-            <text x={x + barW / 2} y={y - 4} textAnchor="middle" fontSize="10" fill={C.text} fontWeight="700">
+            <text className="animate-fade-in" x={x + barW / 2} y={y - 4} textAnchor="middle" fontSize="10" fill={C.text} fontWeight="700" style={{ animationDelay: `${(i * 100) + 300}ms`, animationFillMode: 'both' }}>
               {d.value}%
             </text>
           </g>

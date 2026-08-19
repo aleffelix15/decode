@@ -54,12 +54,12 @@ export function ResultScreen({ detected, profileId, onModule, onDashboard, conce
 
   return (
     <div className="max-w-2xl w-full">
-      <div className="text-center mb-6 sm:mb-8">
+      <div className="text-center mb-6 sm:mb-8 animate-fade-in" style={{ animationDelay: "50ms", animationFillMode: "both" }}>
         <p className="text-[10px] sm:text-[11px] font-bold tracking-widest mb-2" style={{ color: C.lilac }}>{title}</p>
         <p className="text-sm" style={{ color: C.sub }}>Durante a história, você identificou:</p>
       </div>
 
-      <Panel className="p-4 sm:p-5 mb-5 sm:mb-6">
+      <Panel className="p-4 sm:p-5 mb-5 sm:mb-6 animate-slide-up" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
         <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-3">
           {concepts.map((c) => {
             const on = detected.has(c.id);
@@ -75,7 +75,7 @@ export function ResultScreen({ detected, profileId, onModule, onDashboard, conce
       </Panel>
 
       {/* Ending / Profile card */}
-      <Panel className="p-4 sm:p-5 mb-5 sm:mb-6 text-center" style={{ borderColor: rgba(profileColor, 0.4) }}>
+      <Panel className="p-4 sm:p-5 mb-5 sm:mb-6 text-center animate-slide-up" style={{ borderColor: rgba(profileColor, 0.4), animationDelay: "300ms", animationFillMode: "both" }}>
         {ending && (
           <p className="text-[10px] font-bold tracking-widest mb-1" style={{ color: C.sub }}>
             {isSecret ? "★ FINAL SECRETO" : `FINAL ${ending.n} DE 9`}
@@ -96,7 +96,7 @@ export function ResultScreen({ detected, profileId, onModule, onDashboard, conce
         )}
       </Panel>
 
-      <div className="text-center mb-6 sm:mb-8">
+      <div className="text-center mb-6 sm:mb-8 animate-fade-in" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
         <p className="text-sm leading-relaxed" style={{ color: C.text }}>
           {isB
             ? '"Você não precisava salvar Camila.\nVocê precisava estar ao lado dela e guardar as provas."'
@@ -107,8 +107,8 @@ export function ResultScreen({ detected, profileId, onModule, onDashboard, conce
         <div className="max-w-xs mx-auto mt-2"><ProgressBar value={100} max={100} color={C.green} label="História concluída" /></div>
       </div>
 
-      <p className="text-xs font-bold tracking-widest mb-3 text-center" style={{ color: C.sub }}>QUER CONTINUAR DECODIFICANDO?</p>
-      <div className="grid sm:grid-cols-2 gap-3 mb-6 sm:mb-8">
+      <p className="text-xs font-bold tracking-widest mb-3 text-center animate-fade-in" style={{ color: C.sub, animationDelay: "600ms", animationFillMode: "both" }}>QUER CONTINUAR DECODIFICANDO?</p>
+      <div className="grid sm:grid-cols-2 gap-3 mb-6 sm:mb-8 animate-slide-up" style={{ animationDelay: "650ms", animationFillMode: "both" }}>
         <ModuleTile icon={Smartphone} title="Arquivos Recuperados" desc="Analise conversas reais, trecho por trecho" onClick={() => onModule("recovered")} />
         <ModuleTile icon={Zap} title="Triagem Rápida" desc="Treine o olhar: ok, alerta ou contexto?" onClick={() => onModule("triagem")} />
         <ModuleTile icon={Clock} title="Linha do Tempo" desc="Ordene os eventos do pós-término" onClick={() => onModule("timeline")} />
@@ -117,7 +117,7 @@ export function ResultScreen({ detected, profileId, onModule, onDashboard, conce
         <ModuleTile icon={Lock} title="Firewall" desc="Leis de proteção e seus direitos" onClick={() => onModule("firewall")} />
         <ModuleTile icon={BarChart3} title="DataLab" desc="Os dados por trás do problema" onClick={() => onModule("datalab")} />
       </div>
-      <div className="flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-3">
+      <div className="flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-3 animate-fade-in" style={{ animationDelay: "800ms", animationFillMode: "both" }}>
         <GhostButton onClick={onDashboard}>VOLTAR AO SISTEMA</GhostButton>
         <PrimaryButton onClick={() => onModule("shield")}>VER ESCUDO</PrimaryButton>
       </div>

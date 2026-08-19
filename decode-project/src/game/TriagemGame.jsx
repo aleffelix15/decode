@@ -108,10 +108,18 @@ export function TriagemGame() {
               key={opt.value}
               onClick={() => handlePick(opt.value)}
               disabled={!!picked}
-              className="px-3.5 sm:px-4 py-3 rounded-lg border text-sm font-semibold focus:outline-none focus-visible:ring-2 min-h-[48px] break-words"
+              className={`px-3.5 sm:px-4 py-3 rounded-lg border text-sm font-semibold focus:outline-none focus-visible:ring-2 min-h-[48px] break-words transition-all duration-300 flex items-center justify-center gap-2 ${
+                !picked ? "hover:-translate-y-0.5 hover:brightness-110 active:scale-95" :
+                isPicked ? "scale-105 shadow-lg z-10" :
+                isAnswer ? "scale-100" :
+                "opacity-40 scale-95 grayscale"
+              }`}
               style={{ background: bg, borderColor: border, color }}
               aria-pressed={isPicked}
             >
+              {isPicked && isAnswer && <CheckCircle2 size={16} aria-hidden="true" />}
+              {isPicked && !isAnswer && <AlertTriangle size={16} aria-hidden="true" />}
+              {!isPicked && isAnswer && picked && <CheckCircle2 size={16} aria-hidden="true" />}
               {opt.label}
             </button>
           );
