@@ -15,7 +15,7 @@ import { DATA_LAB } from "../data";
 function LineChart({ points, values, label, color = C.lilac, height = 180 }) {
   const W = 600;
   const H = height;
-  const padL = 36;
+  const padL = 52;
   const padR = 12;
   const padT = 16;
   const padB = 26;
