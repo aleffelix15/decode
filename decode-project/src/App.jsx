@@ -4,7 +4,7 @@ import { C, rgba } from "./theme";
 import { INSIGHT_BY_ID } from "./data";
 
 import { Sidebar, MobileNav } from "./components/Nav";
-import { ExitOverlay } from "./components/ExitOverlay";
+import { ExitOverlay, executePanicExit } from "./components/ExitOverlay";
 import { BackdropGradient } from "./components/BackdropGradient";
 
 import { Landing } from "./screens/Landing";
@@ -51,19 +51,24 @@ export default function App() {
   const setDetected = activeCase === "sofia" ? setDetectedSofia : setDetectedMarcos;
   const currentStory = activeCase === "sofia" ? storySofia : storyMarcos;
 
+  const ORIGINAL_TITLE = "DECODE — Descriptografando a Violência";
+  const CAMOUFLAGE_TITLE = "Pesquisa - Web";
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [screen, stage]);
 
-  const triggerEmergencyExit = () => {
-    try {
-      localStorage.clear();
-      sessionStorage.clear();
-    } catch {
-      // Ignora erro se armazenamento estiver indisponível
-    }
-    window.location.replace("https://www.google.com");
-  };
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        document.title = CAMOUFLAGE_TITLE;
+      } else {
+        document.title = ORIGINAL_TITLE;
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -76,7 +81,7 @@ export default function App() {
 
         if (escCount.current >= 2) {
           escCount.current = 0;
-          triggerEmergencyExit();
+          executePanicExit();
         }
       }
     };

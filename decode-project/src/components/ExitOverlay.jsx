@@ -3,25 +3,36 @@ import { LogOut, X } from "lucide-react";
 import { C, rgba } from "../theme";
 import { Panel } from "./ui";
 
+export const executePanicExit = () => {
+  try {
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+  } catch {
+    // Ignora erro caso armazenamento esteja bloqueado ou indisponível
+  }
+
+  try {
+    document.title = "Google";
+    if (document.body) {
+      document.body.style.backgroundColor = "#ffffff";
+      document.body.style.display = "none";
+    }
+  } catch {
+    // Fallback silencioso
+  }
+
+  window.location.replace("https://www.google.com.br");
+};
+
 export function ExitOverlay({ onClose }) {
   const exitBtnRef = useRef(null);
-
-  const handleFastExit = () => {
-    try {
-      localStorage.clear();
-      sessionStorage.clear();
-    } catch {
-      // Ignora erro caso armazenamento esteja bloqueado pelo navegador
-    }
-    window.location.replace("https://www.google.com");
-  };
 
   useEffect(() => {
     exitBtnRef.current?.focus();
     const onKey = (e) => {
       if (e.key === "Escape") {
         e.preventDefault();
-        handleFastExit();
+        executePanicExit();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -71,7 +82,7 @@ export function ExitOverlay({ onClose }) {
 
         <button
           ref={exitBtnRef}
-          onClick={handleFastExit}
+          onClick={executePanicExit}
           aria-label="Sair imediatamente e redirecionar para página neutra"
           className="w-full py-3 rounded-lg font-bold text-sm mb-3 focus:outline-none focus-visible:ring-2 min-h-[44px] transition-transform active:scale-[0.98]"
           style={{ background: C.red, color: "#fff" }}
