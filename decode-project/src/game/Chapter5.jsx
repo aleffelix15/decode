@@ -17,8 +17,8 @@ export function Chapter5({ onDone, onExit }) {
     const selected = CHAPTER5.checklist.map((item, i) => ({ ...item, i })).filter((it) => checked[it.i]);
     const good = selected.filter((s) => s.good).length;
     const bad = selected.filter((s) => !s.good).length;
-    const blamedVictim = !!checked[1]; // "Dizer que a culpa é dela"
-    const listened = !!checked[0]; // "Escutar sem julgar"
+    const blamedVictim = !!checked[1];
+    const listened = !!checked[0];
     setConfirmed(true);
     onDone({ good, bad, manipulacaoDetected: listened && !blamedVictim });
   };

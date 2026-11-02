@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Activity, Scale, MapPin, Phone } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { C, rgba } from "../theme";
 import { ScreenHeader, Panel } from "../components/ui";
 import { SectionEyebrow } from "../components/SectionEyebrow";
 import { StatTile } from "../components/StatTile";
 import { DATA_LAB } from "../data";
-
-/* DataLab — the data module's "premium" sibling. Same numbers as
-   DataDashboardScreen, but interactive (toggle series, hover for
-   exact values), with SVG-rendered charts and per-tile methodology
-   reveal. We don't add a chart library; one good inline chart per
-   series is enough. */
 
 function LineChart({ points, values, label, color = C.lilac, height = 180 }) {
   const W = 600;
@@ -30,13 +24,18 @@ function LineChart({ points, values, label, color = C.lilac, height = 180 }) {
   const path = points
     .map((_, i) => `${i === 0 ? "M" : "L"} ${xFor(i)} ${yFor(values[i])}`)
     .join(" ");
-  // Y-axis ticks: 3 evenly spaced
+
   const yTicks = [0, 0.5, 1].map((t) => {
     const v = minV + t * (maxV - minV);
     return { v: Math.round(v), y: yFor(v) };
   });
-  // X-axis labels: every other point to avoid overlap
-  const xLabels = points.map((p, i) => ({ p, x: xFor(i), show: i === 0 || i === points.length - 1 || i % Math.ceil(points.length / 4) === 0 }));
+
+  const xLabels = points.map((p, i) => ({
+    p,
+    x: xFor(i),
+    show: i === 0 || i === points.length - 1 || i % Math.ceil(points.length / 4) === 0,
+  }));
+
   return (
     <svg
       viewBox={`0 0 ${W} ${H}`}
@@ -45,17 +44,14 @@ function LineChart({ points, values, label, color = C.lilac, height = 180 }) {
       aria-label={label}
       style={{ display: "block", height: "auto" }}
     >
-      {/* grid */}
       {yTicks.map((t, i) => (
         <line key={i} x1={padL} x2={W - padR} y1={t.y} y2={t.y} stroke={rgba(C.lilac, 0.12)} strokeDasharray="2 4" />
       ))}
-      {/* y ticks */}
       {yTicks.map((t, i) => (
         <text key={i} x={padL - 6} y={t.y + 3} textAnchor="end" fontSize="9" fill={C.sub}>
           {t.v.toLocaleString("pt-BR")}
         </text>
       ))}
-      {/* x labels */}
       {xLabels.map((l, i) =>
         l.show ? (
           <text key={i} x={l.x} y={H - 8} textAnchor="middle" fontSize="9" fill={C.sub}>
@@ -63,14 +59,19 @@ function LineChart({ points, values, label, color = C.lilac, height = 180 }) {
           </text>
         ) : null
       )}
-      {/* area under line */}
       <path
         d={`${path} L ${xFor(points.length - 1)} ${H - padB} L ${xFor(0)} ${H - padB} Z`}
         fill={rgba(color, 0.18)}
       />
-      {/* line */}
-      <path d={path} fill="none" stroke={color} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" style={{ filter: `drop-shadow(0 0 6px ${rgba(color, 0.5)})` }} />
-      {/* points */}
+      <path
+        d={path}
+        fill="none"
+        stroke={color}
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        style={{ filter: `drop-shadow(0 0 6px ${rgba(color, 0.5)})` }}
+      />
       {points.map((_, i) => (
         <g key={i}>
           <circle cx={xFor(i)} cy={yFor(values[i])} r="3.5" fill={color} stroke={C.bg} strokeWidth="1.5" />
@@ -89,6 +90,7 @@ function BarChart({ data, label, color = C.lilac, height = 180 }) {
   const padB = 32;
   const maxV = Math.max(...data.map((d) => d.value));
   const barW = (W - padL - padR) / data.length - 14;
+
   return (
     <svg
       viewBox={`0 0 ${W} ${H}`}
@@ -97,7 +99,6 @@ function BarChart({ data, label, color = C.lilac, height = 180 }) {
       aria-label={label}
       style={{ display: "block", height: "auto" }}
     >
-      {/* baseline */}
       <line x1={padL} x2={W - padR} y1={H - padB} y2={H - padB} stroke={rgba(C.lilac, 0.2)} />
       {data.map((d, i) => {
         const h = (d.value / maxV) * (H - padT - padB);
@@ -105,11 +106,37 @@ function BarChart({ data, label, color = C.lilac, height = 180 }) {
         const y = H - padB - h;
         return (
           <g key={i}>
-            <rect className="svg-bar" x={x} y={y} width={barW} height={h} fill={color} rx="3" style={{ filter: `drop-shadow(0 0 4px ${rgba(color, 0.4)})`, animationDelay: `${i * 100}ms` }} />
-            <text className="animate-fade-in" x={x + barW / 2} y={H - padB + 14} textAnchor="middle" fontSize="9" fill={C.sub} style={{ animationDelay: `${(i * 100) + 300}ms`, animationFillMode: 'both' }}>
+            <rect
+              className="svg-bar"
+              x={x}
+              y={y}
+              width={barW}
+              height={h}
+              fill={color}
+              rx="3"
+              style={{ filter: `drop-shadow(0 0 4px ${rgba(color, 0.4)})`, animationDelay: `${i * 100}ms` }}
+            />
+            <text
+              className="animate-fade-in"
+              x={x + barW / 2}
+              y={H - padB + 14}
+              textAnchor="middle"
+              fontSize="9"
+              fill={C.sub}
+              style={{ animationDelay: `${i * 100 + 300}ms`, animationFillMode: "both" }}
+            >
               {d.label}
             </text>
-            <text className="animate-fade-in" x={x + barW / 2} y={y - 4} textAnchor="middle" fontSize="10" fill={C.text} fontWeight="700" style={{ animationDelay: `${(i * 100) + 300}ms`, animationFillMode: 'both' }}>
+            <text
+              className="animate-fade-in"
+              x={x + barW / 2}
+              y={y - 4}
+              textAnchor="middle"
+              fontSize="10"
+              fill={C.text}
+              fontWeight="700"
+              style={{ animationDelay: `${i * 100 + 300}ms`, animationFillMode: "both" }}
+            >
               {d.value}%
             </text>
           </g>
@@ -153,13 +180,14 @@ function DataCard({ item }) {
   );
 }
 
-export function DataLabScreen() {
+export function DataLabScreen({ onBack }) {
   const series = DATA_LAB.filter((d) => d.kind === "series");
   const compare = DATA_LAB.filter((d) => d.kind === "compare");
   const kpis = DATA_LAB.filter((d) => d.kind === "kpi");
+
   return (
     <div>
-      <ScreenHeader title="DataLab" />
+      <ScreenHeader title="DataLab" onBack={onBack} />
       <p className="text-sm mb-1 font-bold leading-snug" style={{ color: C.text }}>Os dados por trás do sistema.</p>
       <p className="text-xs mb-5 sm:mb-6 leading-relaxed" style={{ color: C.sub }}>
         Visualizações interativas baseadas no Anuário Brasileiro de Segurança Pública 2025. Clique no canto superior direito de cada gráfico para ver a fonte.

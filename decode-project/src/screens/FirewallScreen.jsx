@@ -3,11 +3,13 @@ import { C } from "../theme";
 import { ScreenHeader, Panel } from "../components/ui";
 import { FIREWALL_ITEMS } from "../data";
 
-export function FirewallScreen() {
+export function FirewallScreen({ onBack }) {
   return (
     <div>
-      <ScreenHeader title="Firewall" />
-      <p className="text-sm mb-4 leading-relaxed" style={{ color: C.sub }}>Informação em linguagem simples. Para orientação jurídica completa, procure a Defensoria Pública ou a Delegacia da Mulher.</p>
+      <ScreenHeader title="Firewall" onBack={onBack} />
+      <p className="text-sm mb-4 leading-relaxed" style={{ color: C.sub }}>
+        Informação em linguagem simples. Para orientação jurídica completa, procure a Defensoria Pública ou a Delegacia da Mulher.
+      </p>
       <div className="flex flex-col gap-2.5 sm:gap-3 max-w-2xl">
         {FIREWALL_ITEMS.map((it, i) => (
           <Panel key={i} className="p-3.5 sm:p-4">

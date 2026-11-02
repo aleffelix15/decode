@@ -4,12 +4,15 @@ import { C, rgba } from "../theme";
 import { ScreenHeader } from "../components/ui";
 import { HIDDEN_FILES } from "../data";
 
-export function HiddenFilesScreen() {
+export function HiddenFilesScreen({ onBack }) {
   const [open, setOpen] = useState({});
+
   return (
     <div>
-      <ScreenHeader title="Arquivos Ocultos" />
-      <p className="text-sm mb-4 leading-relaxed" style={{ color: C.sub }}>Toque em cada arquivo para decodificar o tipo de violência.</p>
+      <ScreenHeader title="Arquivos Ocultos" onBack={onBack} />
+      <p className="text-sm mb-4 leading-relaxed" style={{ color: C.sub }}>
+        Toque em cada arquivo para decodificar o tipo de violência.
+      </p>
       <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
         {HIDDEN_FILES.map((f, i) => (
           <button

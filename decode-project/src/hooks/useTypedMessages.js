@@ -1,21 +1,39 @@
 import { useState, useEffect } from "react";
 
-/* Reveals messages one by one with typing pauses, resetting whenever
-   resetKey changes (e.g. moving to a new chapter). */
-export function useTypedMessages(messages, resetKey) {
+export function useTypedMessages(messages = [], resetKey) {
+  const total = Array.isArray(messages) ? messages.length : 0;
   const [visible, setVisible] = useState(0);
   const [typing, setTyping] = useState(true);
+
   useEffect(() => {
     setVisible(0);
-    setTyping(true);
-  }, [resetKey]);
+    setTyping(total > 0);
+  }, [resetKey, total]);
+
   useEffect(() => {
-    if (visible >= messages.length) { setTyping(false); return; }
+    if (total === 0 || visible >= total) {
+      setTyping(false);
+      return;
+    }
+
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      setVisible(total);
+      setTyping(false);
+      return;
+    }
+
     setTyping(true);
-    const t = setTimeout(() => {
-      setVisible((v) => v + 1);
+    const timer = setTimeout(() => {
+      setVisible((prev) => Math.min(prev + 1, total));
     }, 700);
-    return () => clearTimeout(t);
-  }, [visible, messages, resetKey]);
-  return { visible, typing: typing && visible < messages.length };
+
+    return () => clearTimeout(timer);
+  }, [visible, total, resetKey]);
+
+  return { visible, typing: typing && visible < total };
 }

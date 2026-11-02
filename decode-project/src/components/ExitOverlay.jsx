@@ -3,54 +3,85 @@ import { LogOut, X } from "lucide-react";
 import { C, rgba } from "../theme";
 import { Panel } from "./ui";
 
-/* A safety-critical modal: reachable via ESC×3 or the always-visible
-   "SAÍDA RÁPIDA" button, so someone can leave fast if they're interrupted.
-   Gets full dialog semantics (focus moves in, Escape closes, focus
-   returns to the trigger) since this is exactly the moment keyboard
-   and screen-reader users most need a predictable exit. */
 export function ExitOverlay({ onClose }) {
-  const closeBtnRef = useRef(null);
+  const exitBtnRef = useRef(null);
+
+  const handleFastExit = () => {
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+    } catch {
+      // Ignora erro caso armazenamento esteja bloqueado pelo navegador
+    }
+    window.location.replace("https://www.google.com");
+  };
 
   useEffect(() => {
-    closeBtnRef.current?.focus();
+    exitBtnRef.current?.focus();
     const onKey = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        e.preventDefault();
+        handleFastExit();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, []);
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 xs:p-4"
       style={{
-        background: rgba("#000000", 0.75),
-        backdropFilter: "blur(4px)",
-        WebkitBackdropFilter: "blur(4px)",
-        padding: "max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) max(1rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px))",
+        background: rgba("#000000", 0.8),
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
       }}
+      role="presentation"
     >
       <Panel
-        className="w-full max-w-sm p-4 sm:p-5 md:p-6 relative"
+        className="w-full max-w-sm p-4 sm:p-5 md:p-6 relative shadow-2xl"
         role="dialog"
         aria-modal="true"
         aria-labelledby="exit-overlay-title"
+        aria-describedby="exit-overlay-desc"
       >
-        <button ref={closeBtnRef} onClick={onClose} aria-label="Fechar" className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1 min-h-[36px] min-w-[36px] flex items-center justify-center focus:outline-none focus-visible:ring-2" style={{ color: C.sub }}>
-          <X size={18} />
+        <button
+          onClick={onClose}
+          aria-label="Cancelar saída rápida e voltar à aplicação"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1 min-h-[36px] min-w-[36px] flex items-center justify-center focus:outline-none focus-visible:ring-2 rounded-lg"
+          style={{ color: C.sub }}
+        >
+          <X size={18} aria-hidden="true" />
         </button>
+
         <div className="flex items-center gap-2 mb-3 sm:mb-4" style={{ color: C.red }}>
-          <LogOut size={18} />
-          <span id="exit-overlay-title" className="font-bold text-sm tracking-wide">SAÍDA RÁPIDA</span>
+          <LogOut size={18} aria-hidden="true" />
+          <span id="exit-overlay-title" className="font-bold text-sm tracking-wide">
+            SAÍDA RÁPIDA DE EMERGÊNCIA
+          </span>
         </div>
-        <p className="text-sm font-semibold mb-1" style={{ color: C.text }}>Precisa sair rápido?</p>
-        <p className="text-xs mb-4 sm:mb-5 leading-relaxed" style={{ color: C.sub }}>
-          Clique no botão abaixo para sair imediatamente desta página. Isso apenas fecha a experiência — não apaga o histórico do navegador nem garante, por si só, sua segurança digital.
+
+        <p className="text-sm font-semibold mb-1" style={{ color: C.text }}>
+          Precisa fechar imediatamente?
         </p>
-        <button onClick={() => window.open("https://www.google.com", "_blank")} className="w-full py-3 rounded-lg font-bold text-sm mb-3 focus:outline-none focus-visible:ring-2 min-h-[44px]" style={{ background: C.red, color: "#fff" }}>
-          SAIR AGORA
+
+        <p id="exit-overlay-desc" className="text-xs mb-4 sm:mb-5 leading-relaxed" style={{ color: C.sub }}>
+          Ao clicar no botão abaixo, seus dados locais desta sessão serão limpos e você será redirecionada(o) imediatamente para uma página neutra.
+        </p>
+
+        <button
+          ref={exitBtnRef}
+          onClick={handleFastExit}
+          aria-label="Sair imediatamente e redirecionar para página neutra"
+          className="w-full py-3 rounded-lg font-bold text-sm mb-3 focus:outline-none focus-visible:ring-2 min-h-[44px] transition-transform active:scale-[0.98]"
+          style={{ background: C.red, color: "#fff" }}
+        >
+          SAIR AGORA (ESC)
         </button>
-        <p className="text-[11px]" style={{ color: C.sub }}>Você será direcionado(a) para uma nova aba neutra.</p>
+
+        <p className="text-[11px] text-center" style={{ color: C.sub }}>
+          Você será direcionada(o) para o Google sem salvar rastros no histórico recente.
+        </p>
       </Panel>
     </div>
   );

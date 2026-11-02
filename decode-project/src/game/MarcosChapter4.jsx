@@ -6,24 +6,22 @@ import { useTypedMessages } from "../hooks/useTypedMessages";
 import { ChatShell } from "./ChatShell";
 import { CHAPTERS_B } from "../data";
 
-/* Marcos chapter 4 — Chantagem + ameaça indireta. Two patterns unlock
-   in one reveal so the screen shows both, mirroring Sofia's cap 4. */
 export function MarcosChapter4({ onDone, onExit }) {
-  const ch = CHAPTERS_B[3];
-  const { visible, typing } = useTypedMessages(ch.messages, ch.key);
-  const allShown = visible >= ch.messages.length;
+  const ch = CHAPTERS_B[3] || {};
+  const { visible, typing } = useTypedMessages(ch.messages || [], ch.key || "cap4b");
+  const allShown = visible >= (ch.messages?.length || 0);
   const [revealed, setRevealed] = useState(false);
 
   return (
     <div>
       <ScreenHeader
-        title={`Capítulo ${ch.n}/5`}
+        title={`Capítulo ${ch.n || 4}/5`}
         onBack={onExit}
         right={<div className="w-24"><ProgressBar value={allShown ? 4 : 3} max={5} /></div>}
       />
       <ChapterSubtitle>{ch.title}</ChapterSubtitle>
       <div className="sm:hidden mb-4"><ProgressBar value={allShown ? 4 : 3} max={5} /></div>
-      <ChatShell transition={ch.transition} messages={ch.messages} visibleMsgs={visible} typing={typing} name="Camila" initial="C">
+      <ChatShell transition={ch.transition} messages={ch.messages || []} visibleMsgs={visible} typing={typing} name="Camila" initial="C">
         {allShown && !revealed && (
           <PrimaryButton onClick={() => setRevealed(true)} className="w-full max-w-xl">ANALISAR PADRÃO</PrimaryButton>
         )}

@@ -3,15 +3,12 @@ import { ScreenHeader } from "../components/ui";
 import { RedFlagText } from "../game/RedFlagText";
 import { FRAGMENTS, FRAGMENTS_B } from "../data";
 
-/* Um celular corrompido de Ana, recuperado em fragmentos. Trechos com
-   sinal de alerta são clicáveis e revelam o conceito por trás — o mesmo
-   mecanismo de "descriptografar" do resto do app, aplicado a uma
-   conversa real em vez de uma escolha de múltipla escolha. */
-export function RecoveredFilesScreen({ onDiscover }) {
+export function RecoveredFilesScreen({ onDiscover, onBack }) {
   const all = [...FRAGMENTS, ...FRAGMENTS_B];
+
   return (
     <div>
-      <ScreenHeader title="Arquivos Recuperados" />
+      <ScreenHeader title="Arquivos Recuperados" onBack={onBack} />
       <p className="text-sm mb-6" style={{ color: C.sub }}>
         Fragmentos de conversa recuperados de celulares corrompidos. Toque nos trechos sublinhados para analisar o que está por trás deles.
       </p>

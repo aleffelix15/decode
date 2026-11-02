@@ -11,6 +11,7 @@ import { Landing } from "./screens/Landing";
 import { Onboarding } from "./screens/Onboarding";
 import { Dashboard } from "./screens/Dashboard";
 import { CaseSelectScreen } from "./screens/CaseSelectScreen";
+import { LevelSelect } from "./screens/LevelSelect";
 import { InsightsScreen } from "./screens/InsightsScreen";
 import { ShieldScreen } from "./screens/ShieldScreen";
 import { HelpScreen } from "./screens/HelpScreen";
@@ -26,16 +27,10 @@ import { DataLabScreen } from "./screens/DataLabScreen";
 import { NarrativeGame } from "./game/NarrativeGame";
 import { MarcosStory } from "./game/MarcosStory";
 
-/* ------------------------------------------------------------------ */
-/* MAIN APP — manual routing + all shared state                      */
-/* Two story timelines tracked independently (Sofia / Marcos) so the  */
-/* user can play both without losing progress in the current session. */
-/* No persistence (privacy promise); all state resets on reload.      */
-/* ------------------------------------------------------------------ */
 export default function App() {
   const [screen, setScreen] = useState("landing");
-  const [stage, setStage] = useState("intro"); // shared storyStage for whichever case is running
-  const [activeCase, setActiveCase] = useState("sofia"); // "sofia" | "marcos"
+  const [stage, setStage] = useState("intro");
+  const [activeCase, setActiveCase] = useState("sofia");
   const [storySofia, setStorySofia] = useState({ chapter: 0, finished: false });
   const [storyMarcos, setStoryMarcos] = useState({ chapter: 0, finished: false });
   const [detectedSofia, setDetectedSofia] = useState(new Set());
@@ -48,29 +43,46 @@ export default function App() {
   const [metricsMarcos, setMetricsMarcos] = useState({ awareness: 0, support: 0, risk: 0 });
   const [finalMetricsSofia, setFinalMetricsSofia] = useState(null);
   const [finalMetricsMarcos, setFinalMetricsMarcos] = useState(null);
+
   const escCount = useRef(0);
   const escTimer = useRef(null);
 
-  // Map the active case's data onto the shared stage.
   const detected = activeCase === "sofia" ? detectedSofia : detectedMarcos;
   const setDetected = activeCase === "sofia" ? setDetectedSofia : setDetectedMarcos;
   const currentStory = activeCase === "sofia" ? storySofia : storyMarcos;
-  const setCurrentStory = activeCase === "sofia" ? setStorySofia : setStoryMarcos;
-  const currentProfile = activeCase === "sofia" ? profileId : profileIdMarcos;
-  const setCurrentProfile = activeCase === "sofia" ? setProfileId : setProfileIdMarcos;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [screen, stage]);
+
+  const triggerEmergencyExit = () => {
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+    } catch {
+      // Ignora erro se armazenamento estiver indisponível
+    }
+    window.location.replace("https://www.google.com");
+  };
 
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") {
         escCount.current += 1;
         clearTimeout(escTimer.current);
-        escTimer.current = setTimeout(() => (escCount.current = 0), 1200);
-        if (escCount.current >= 3) { setExitOpen(true); escCount.current = 0; }
+        escTimer.current = setTimeout(() => {
+          escCount.current = 0;
+        }, 800);
+
+        if (escCount.current >= 2) {
+          escCount.current = 0;
+          triggerEmergencyExit();
+        }
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [screen]);
+  }, []);
 
   const go = (s) => setScreen(s);
 
@@ -127,13 +139,15 @@ export default function App() {
       return;
     }
     if (stage === 4) {
-      const { good, bad, manipulacaoDetected } = payload;
+      const { good = 0, bad = 0, manipulacaoDetected = false } = payload || {};
       if (manipulacaoDetected) unlockPattern("manipulacao");
       const earlyScore = ["controle", "privacidade", "isolamento"].filter((id) => detectedSofia.has(id)).length;
       const total = earlyScore + good - bad;
       const profile = total >= 6 ? "apoio" : total >= 2 ? "alerta" : "invisiveis";
       setProfileId(profile);
-      const allPatterns = ["controle", "privacidade", "isolamento", "psicologica", "ciclo", "manipulacao"].every((id) => detectedSofia.has(id) || id === "manipulacao" && manipulacaoDetected);
+      const allPatterns = ["controle", "privacidade", "isolamento", "psicologica", "ciclo", "manipulacao"].every(
+        (id) => detectedSofia.has(id) || (id === "manipulacao" && manipulacaoDetected)
+      );
       setFinalMetricsSofia({ ...metricsSofia, good, bad, allPatterns });
       setStorySofia({ chapter: 5, finished: true });
       setStage("result");
@@ -160,13 +174,15 @@ export default function App() {
       return;
     }
     if (stage === "b-4") {
-      const { good, bad, manipulacaoDetected } = payload;
+      const { good = 0, bad = 0, manipulacaoDetected = false } = payload || {};
       if (manipulacaoDetected) unlockPattern("stalkerware");
       const earlyScore = ["stalking", "dependencia", "stalkerware"].filter((id) => detectedMarcos.has(id)).length;
       const total = earlyScore + good - bad;
       const profile = total >= 5 ? "blindada" : total >= 2 ? "alerta" : "acomodada";
       setProfileIdMarcos(profile);
-      const allPatterns = ["stalking", "dependencia", "stalkerware", "chantagem", "ameaca-indireta"].every((id) => detectedMarcos.has(id) || id === "stalkerware" && manipulacaoDetected);
+      const allPatterns = ["stalking", "dependencia", "stalkerware", "chantagem", "ameaca-indireta"].every(
+        (id) => detectedMarcos.has(id) || (id === "stalkerware" && manipulacaoDetected)
+      );
       setFinalMetricsMarcos({ ...metricsMarcos, good, bad, allPatterns });
       setStoryMarcos({ chapter: 5, finished: true });
       setStage("b-result");
@@ -175,7 +191,6 @@ export default function App() {
 
   const onModule = (s) => setScreen(s);
 
-  // Pick a backdrop stage that matches the current surface.
   const backdropStage = (() => {
     if (screen === "landing" || screen === "onboarding") return "landing";
     if (screen === "game" && (stage === "result" || stage === "b-result")) return "result";
@@ -191,20 +206,60 @@ export default function App() {
     content = <Onboarding onDone={() => setScreen("dashboard")} />;
   } else {
     let body;
-    if (screen === "dashboard") body = <Dashboard storySofia={storySofia} storyMarcos={storyMarcos} unlockedInsights={unlockedInsights} go={go} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} onTriagem={() => go("triagem")} onDataLab={() => go("datalab")} />;
-    else if (screen === "levels") body = <CaseSelectScreen storySofia={storySofia} storyMarcos={storyMarcos} onPlaySofia={() => { setActiveCase("sofia"); openStory(); }} onPlayMarcos={openMarcos} />;
-    else if (screen === "insights") body = <InsightsScreen unlockedInsights={unlockedInsights} />;
-    else if (screen === "shield") body = <ShieldScreen storySofia={storySofia} storyMarcos={storyMarcos} unlockedInsights={unlockedInsights} />;
-    else if (screen === "help") body = <HelpScreen />;
-    else if (screen === "algorithm") body = <AlgorithmScreen />;
-    else if (screen === "hiddenfiles") body = <HiddenFilesScreen />;
-    else if (screen === "firewall") body = <FirewallScreen />;
-    else if (screen === "data") body = <DataDashboardScreen />;
-    else if (screen === "datalab") body = <DataLabScreen />;
-    else if (screen === "recovered") body = <RecoveredFilesScreen onDiscover={unlockPattern} />;
-    else if (screen === "triagem") body = <TriagemScreen />;
-    else if (screen === "timeline") body = <TimelineScreen />;
-    else if (screen === "game") {
+    if (screen === "dashboard") {
+      body = (
+        <Dashboard
+          storySofia={storySofia}
+          storyMarcos={storyMarcos}
+          unlockedInsights={unlockedInsights}
+          go={go}
+          onPlaySofia={() => { setActiveCase("sofia"); openStory(); }}
+          onPlayMarcos={openMarcos}
+          onTriagem={() => go("triagem")}
+          onDataLab={() => go("datalab")}
+        />
+      );
+    } else if (screen === "levels") {
+      body = (
+        <CaseSelectScreen
+          storySofia={storySofia}
+          storyMarcos={storyMarcos}
+          onBack={() => go("dashboard")}
+          onPlaySofia={() => { setActiveCase("sofia"); openStory(); }}
+          onPlayMarcos={openMarcos}
+        />
+      );
+    } else if (screen === "levelselect") {
+      body = (
+        <LevelSelect
+          story={activeCase === "sofia" ? storySofia : storyMarcos}
+          onPlay={openStory}
+          onBack={() => go("dashboard")}
+        />
+      );
+    } else if (screen === "insights") {
+      body = <InsightsScreen unlockedInsights={unlockedInsights} onBack={() => go("dashboard")} />;
+    } else if (screen === "shield") {
+      body = <ShieldScreen storySofia={storySofia} storyMarcos={storyMarcos} unlockedInsights={unlockedInsights} onBack={() => go("dashboard")} />;
+    } else if (screen === "help") {
+      body = <HelpScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "algorithm") {
+      body = <AlgorithmScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "hiddenfiles") {
+      body = <HiddenFilesScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "firewall") {
+      body = <FirewallScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "data") {
+      body = <DataDashboardScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "datalab") {
+      body = <DataLabScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "recovered") {
+      body = <RecoveredFilesScreen onDiscover={unlockPattern} onBack={() => go("dashboard")} />;
+    } else if (screen === "triagem") {
+      body = <TriagemScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "timeline") {
+      body = <TimelineScreen onBack={() => go("dashboard")} />;
+    } else if (screen === "game") {
       const onExit = () => setScreen("dashboard");
       if (activeCase === "marcos") {
         body = (
@@ -245,11 +300,13 @@ export default function App() {
             style={{
               paddingTop: "max(4.5rem, calc(4.5rem + env(safe-area-inset-top, 0px)))",
             }}
-          >{body}</main>
+          >
+            {body}
+          </main>
           <MobileNav screen={screen} go={go} />
           <button
             onClick={() => setExitOpen(true)}
-            aria-label="Saída rápida"
+            aria-label="Saída rápida de emergência"
             className="md:hidden fixed right-3 sm:right-4 z-20 min-h-[40px] min-w-[40px] xs:min-h-[44px] xs:min-w-[44px] px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-bold flex items-center gap-1 sm:gap-1.5 focus:outline-none focus-visible:ring-2 shadow-lg"
             style={{
               top: "max(0.75rem, env(safe-area-inset-top, 0px))",

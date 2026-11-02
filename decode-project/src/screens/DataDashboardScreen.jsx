@@ -2,10 +2,10 @@ import { C } from "../theme";
 import { ScreenHeader, Panel } from "../components/ui";
 import { DATA_STATS } from "../data";
 
-export function DataDashboardScreen() {
+export function DataDashboardScreen({ onBack }) {
   return (
     <div>
-      <ScreenHeader title="Relatório de Dados" />
+      <ScreenHeader title="Relatório de Dados" onBack={onBack} />
       <p className="text-sm mb-1 font-bold leading-snug" style={{ color: C.text }}>Por que precisamos atualizar o sistema?</p>
       <p className="text-xs mb-5 sm:mb-6 leading-relaxed" style={{ color: C.sub }}>Dados oficiais mais recentes sobre violência contra a mulher no Brasil.</p>
       <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">

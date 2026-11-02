@@ -3,14 +3,10 @@
   "devCommand": "cd decode-project && npm run dev",
   "installCommand": "cd decode-project && npm install",
   "outputDirectory": "decode-project/dist",
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/(?!.*\\.).*$",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/.*",
-      "dest": "/$0"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

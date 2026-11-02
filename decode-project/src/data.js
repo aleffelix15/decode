@@ -1,12 +1,10 @@
 import {
-  Home, Gamepad2, Sparkles, Shield, HelpCircle, Zap, Clock,
+  Home, Gamepad2, Sparkles, Shield, HelpCircle, Zap,
   Brain, Link2, ShieldAlert, Fingerprint, Radio, Eye, Crosshair,
-  Smartphone, KeyRound, Wallet, Phone, MapPin,
+  Smartphone, KeyRound, Wallet, Phone,
 } from "lucide-react";
 
-/* ------------------------------------------------------------------ */
 /* INSIGHTS — global collectible cards, unlocked as the story unfolds */
-/* ------------------------------------------------------------------ */
 export const INSIGHTS = [
   { id: "privacidade", title: "Invasão de Privacidade", icon: Fingerprint,
     text: "Exigir senhas, vasculhar conversas ou cobrar satisfação sobre a localização de alguém não é prova de confiança — é vigilância. Privacidade é um limite legítimo em qualquer relação." },
@@ -23,9 +21,7 @@ export const INSIGHTS = [
 ];
 export const INSIGHT_BY_ID = Object.fromEntries(INSIGHTS.map((i) => [i.id, i]));
 
-/* ------------------------------------------------------------------ */
 /* INSIGHTS B — case Marcos (stalking, chantagem, controle financeiro) */
-/* ------------------------------------------------------------------ */
 export const INSIGHTS_B = [
   { id: "stalking", title: "Stalking Digital", icon: Crosshair,
     text: "Mensagens insistentes após o término, monitorar localização, criar perfis falsos para vigiar: stalking digital é crime (Lei 14.132/2021) e costuma ser o passo anterior à violência física." },
@@ -184,10 +180,8 @@ export const CHAPTER5 = {
   ],
 };
 
-/* ------------------------------------------------------------------ */
 /* CASO B — "Marcos e o silêncio depois"                              */
 /* Estilo diferente: começa APÓS o término. Marcos não aceita o fim. */
-/* ------------------------------------------------------------------ */
 export const CHAPTERS_B = [
   {
     key: "b1",
@@ -394,10 +388,8 @@ export const DATA_STATS = [
   { n: "2 por minuto", label: "foi a média de acionamentos ao 190 relacionados a mulheres em 2024 (mais de 1 milhão no ano)", src: "FBSP, Anuário Brasileiro de Segurança Pública 2025" },
 ];
 
-/* ------------------------------------------------------------------ */
 /* "ARQUIVOS RECUPERADOS" — fragmentos de conversa com red flags       */
 /* clicáveis. Cada mensagem com `flag` referencia um id de INSIGHTS.  */
-/* ------------------------------------------------------------------ */
 export const FRAGMENTS = [
   {
     id: "fragment-001",
@@ -423,9 +415,7 @@ export const FIREWALL_ITEMS = [
   { title: "Lei de Stalking (14.132/2021)", text: "Perseguir, intimidar ou ameaçar alguém de forma reiterada, inclusive por meio digital, é crime com pena de 6 meses a 2 anos de reclusão. Procure a DEAM com provas (prints, datas, áudios)." },
 ];
 
-/* ------------------------------------------------------------------ */
 /* FRAGMENTS B — conversas pós-término, perfil de agressor            */
-/* ------------------------------------------------------------------ */
 export const FRAGMENTS_B = [
   {
     id: "fragment-002",
@@ -451,9 +441,7 @@ export const FRAGMENTS_B = [
   },
 ];
 
-/* ------------------------------------------------------------------ */
 /* TRIAGEM RÁPIDA — 10 relatos curtos, 3 botões (OK / Alerta / Contexto) */
-/* ------------------------------------------------------------------ */
 export const TRIAGEM_CARDS = [
   { id: "t1", text: "Ele pede pra você mandar sua localização quando vocês estão longe.",
     type: "red", reason: "Vigilância reiterada é controle, não cuidado. Em recorrência, pode configurar stalking." },
@@ -486,9 +474,7 @@ export const TRIAGEM_TRIAGE_OPTIONS = [
   { value: "context", label: "Depende do contexto" },
 ];
 
-/* ------------------------------------------------------------------ */
 /* TIMELINE — ordenar 6 eventos do pós-término                       */
-/* ------------------------------------------------------------------ */
 export const TIMELINE_EVENTS = [
   { id: "e1", day: 0, kind: "showup", text: "Aparece na sua casa sem avisar.", insight: "Aparecer sem convite após o término é invasão de espaço." },
   { id: "e2", day: 2, kind: "contact", text: "40 mensagens em uma noite.", insight: "Volume excessivo de contato é parte do ciclo de stalking." },
@@ -499,9 +485,7 @@ export const TIMELINE_EVENTS = [
 ];
 export const TIMELINE_INSIGHT = "O pós-término revela o padrão. As primeiras atitudes parecem 'carinho', mas a escalada mostra que cada passo é uma invasão maior. Reconhecer a curva é o primeiro passo para se proteger.";
 
-/* ------------------------------------------------------------------ */
 /* DATA LAB — extensão de DATA_STATS com séries e comparativos       */
-/* ------------------------------------------------------------------ */
 export const DATA_LAB = [
   {
     id: "fem-series",
@@ -554,9 +538,7 @@ export const DATA_LAB = [
   },
 ];
 
-/* ------------------------------------------------------------------ */
 /* PROFILES B — perfis de reação ao stalking                         */
-/* ------------------------------------------------------------------ */
 export const PROFILES_B = {
   blindada: {
     title: "BLINDADA",
@@ -590,9 +572,7 @@ export const NAV_ITEMS = [
   { id: "help", label: "Ajuda", icon: HelpCircle },
 ];
 
-/* ------------------------------------------------------------------ */
 /* ENDINGS — 8 named endings + 1 secret                               */
-/* ------------------------------------------------------------------ */
 export const ENDINGS = {
   rede: {
     id: 'rede', n: 1, title: 'A REDE',

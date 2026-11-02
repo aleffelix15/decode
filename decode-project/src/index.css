@@ -60,7 +60,7 @@ body::before {
   .decode-cursor { animation: none; opacity: 1; }
 }
 
-/* ========== DECODE 2.0 — premium dark microdetails ========== */
+/* DECODE dark microdetails */
 
 @keyframes decode-fade-in {
   from { opacity: 0; }
@@ -251,7 +251,7 @@ body::before {
   .decode-card:hover { transform: none; }
 }
 
-/* ========== RESPONSIVE TYPOGRAPHY & SIZING ========== */
+/* Responsive typography and sizing */
 
 /* Extra small devices (320px - 374px) */
 @media (max-width: 374px) {

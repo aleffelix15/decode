@@ -17,6 +17,7 @@ export function Sidebar({ screen, go, onExit }) {
               key={it.id}
               onClick={() => go(it.id)}
               aria-current={active ? "page" : undefined}
+              aria-label={`Ir para ${it.label}`}
               className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left focus:outline-none focus-visible:ring-2"
               style={{
                 background: active ? rgba(C.lilac, 0.15) : "transparent",
@@ -24,15 +25,20 @@ export function Sidebar({ screen, go, onExit }) {
                 borderLeft: active ? `2px solid ${C.lilac}` : "2px solid transparent",
               }}
             >
-              <it.icon size={17} />
+              <it.icon size={17} aria-hidden="true" />
               {it.label}
             </button>
           );
         })}
       </nav>
       <div className="mt-auto pt-6">
-        <button onClick={onExit} className="w-full flex items-center gap-2 justify-center px-3 py-2.5 rounded-lg text-xs font-semibold focus:outline-none focus-visible:ring-2" style={{ background: rgba(C.red, 0.12), color: C.red, border: `1px solid ${rgba(C.red, 0.3)}` }}>
-          <LogOut size={14} /> SAÍDA RÁPIDA
+        <button
+          onClick={onExit}
+          aria-label="Saída rápida de emergência"
+          className="w-full flex items-center gap-2 justify-center px-3 py-2.5 rounded-lg text-xs font-semibold focus:outline-none focus-visible:ring-2 transition-transform active:scale-[0.98]"
+          style={{ background: rgba(C.red, 0.12), color: C.red, border: `1px solid ${rgba(C.red, 0.3)}` }}
+        >
+          <LogOut size={14} aria-hidden="true" /> SAÍDA RÁPIDA
         </button>
       </div>
     </aside>
@@ -48,13 +54,20 @@ export function MobileNav({ screen, go }) {
         background: C.panel,
         borderColor: C.line,
       }}
-      aria-label="Navegação principal"
+      aria-label="Navegação móvel"
     >
       {NAV_ITEMS.map((it) => {
         const active = screen === it.id || (it.id === "levels" && screen === "game");
         return (
-          <button key={it.id} onClick={() => go(it.id)} aria-current={active ? "page" : undefined} className="flex flex-col items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1.5 sm:py-2 min-h-[48px] min-w-[44px] text-[10px] font-medium focus:outline-none focus-visible:ring-2" style={{ color: active ? C.lilac : C.sub }}>
-            <it.icon size={18} className="sm:w-[19px] sm:h-[19px]" />
+          <button
+            key={it.id}
+            onClick={() => go(it.id)}
+            aria-current={active ? "page" : undefined}
+            aria-label={`Ir para ${it.label}`}
+            className="flex flex-col items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1.5 sm:py-2 min-h-[48px] min-w-[44px] text-[10px] font-medium focus:outline-none focus-visible:ring-2"
+            style={{ color: active ? C.lilac : C.sub }}
+          >
+            <it.icon size={18} className="sm:w-[19px] sm:h-[19px]" aria-hidden="true" />
             <span className="leading-none">{it.label}</span>
           </button>
         );

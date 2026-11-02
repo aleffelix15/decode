@@ -4,13 +4,8 @@ import { C, rgba } from "../theme";
 import { Panel, ProgressBar, PrimaryButton, GhostButton } from "../components/ui";
 import { TRIAGEM_CARDS, TRIAGEM_TRIAGE_OPTIONS } from "../data";
 
-/* Mini-game logic: shuffle the deck on mount, present one card at a
-   time with 3 triage options. Hit = green pulse + reason shown; miss
-   = red pulse + reason explaining why. After 10 cards, summary. */
 export function TriagemGame() {
   const deck = useMemo(() => {
-    // Stable shuffle (Fisher–Yates with a simple LCG so re-mounts don't
-    // reshuffle mid-game if React strict-mode double-invokes effects).
     const a = [...TRIAGEM_CARDS].slice(0, 10);
     let s = 1234567;
     const rand = () => {
@@ -25,16 +20,16 @@ export function TriagemGame() {
   }, []);
 
   const [i, setI] = useState(0);
-  const [picked, setPicked] = useState(null); // "ok" | "red" | "context"
+  const [picked, setPicked] = useState(null);
   const [score, setScore] = useState(0);
-  const [history, setHistory] = useState([]); // { card, picked, correct }
+  const [history, setHistory] = useState([]);
   const [done, setDone] = useState(false);
 
   const card = deck[i];
-  const isCorrect = picked === card.type;
+  const isCorrect = card && picked === card.type;
 
   const handlePick = (val) => {
-    if (picked) return;
+    if (picked || !card) return;
     setPicked(val);
     const correct = val === card.type;
     if (correct) setScore((s) => s + 1);
@@ -63,6 +58,8 @@ export function TriagemGame() {
       <ResultPanel score={score} total={deck.length} history={history} onRestart={restart} />
     );
   }
+
+  if (!card) return null;
 
   return (
     <div className="max-w-xl w-full">
@@ -161,6 +158,7 @@ export function TriagemGame() {
 function ResultPanel({ score, total, history, onRestart }) {
   const pct = Math.round((score / total) * 100);
   const tone = pct >= 80 ? C.green : pct >= 50 ? C.amber : C.red;
+
   return (
     <div className="max-w-2xl w-full">
       <Panel className="p-5 sm:p-6 text-center mb-5" style={{ borderColor: rgba(tone, 0.45) }}>

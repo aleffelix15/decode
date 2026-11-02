@@ -2,11 +2,8 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { C, rgba } from "../theme";
 
-/* ------------------------------------------------------------------ */
-/* GlitchTitle — the app's signature moment: text decodes from random */
-/* glyphs into the final word, echoing "Descriptografando a Violência" */
-/* ------------------------------------------------------------------ */
 const DECODE_GLYPHS = "!<>-_\\/[]{}=+*^?#01";
+
 export function GlitchTitle({ children, size = "text-[2rem] xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl" }) {
   const target = typeof children === "string" ? children : "";
   const [display, setDisplay] = useState(target);
@@ -112,11 +109,11 @@ export function ScreenHeader({ title, subtitle, onBack, right }) {
         {onBack && (
           <button
             onClick={onBack}
-            aria-label="Voltar"
-            className="p-2 xs:p-2.5 sm:p-2.5 rounded-lg border shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center focus:outline-none focus-visible:ring-2"
+            aria-label="Voltar para a tela anterior"
+            className="p-2 xs:p-2.5 sm:p-2.5 rounded-lg border shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center focus:outline-none focus-visible:ring-2 transition-colors hover:brightness-110 active:scale-95"
             style={{ borderColor: C.line, color: C.text }}
           >
-            <ChevronLeft size={16} className="xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5" />
+            <ChevronLeft size={16} className="xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5" aria-hidden="true" />
           </button>
         )}
         <h2 className="text-sm xs:text-base sm:text-base md:text-lg font-bold tracking-wide truncate" style={{ color: C.text }}>{title}</h2>
@@ -130,7 +127,6 @@ export function ChapterSubtitle({ children }) {
   return <p className="text-xs xs:text-sm mb-3 xs:mb-4 sm:mb-5" style={{ color: C.sub }}>{children}</p>;
 }
 
-/* Small tile used both on the Dashboard and on the story ResultScreen */
 export function ModuleTile({ icon: Icon, title, desc, onClick }) {
   return (
     <button
@@ -139,13 +135,13 @@ export function ModuleTile({ icon: Icon, title, desc, onClick }) {
       style={{ background: C.panel2, borderColor: C.line }}
     >
       <div className="p-1.5 xs:p-2 rounded-lg shrink-0" style={{ background: rgba(C.lilac, 0.15) }}>
-        <Icon size={16} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5" style={{ color: C.lilac }} />
+        <Icon size={16} className="xs:w-4 xs:h-4 sm:w-5 sm:h-5" style={{ color: C.lilac }} aria-hidden="true" />
       </div>
       <div className="flex-1 min-w-0">
         <p className="font-bold text-xs xs:text-sm sm:text-sm truncate" style={{ color: C.text }}>{title}</p>
         <p className="text-[11px] xs:text-xs leading-tight" style={{ color: C.sub }}>{desc}</p>
       </div>
-      <ChevronRight size={14} className="ml-1 xs:ml-2 shrink-0 sm:ml-3 xs:w-4 xs:h-4 sm:w-4 sm:h-4" style={{ color: C.sub }} />
+      <ChevronRight size={14} className="ml-1 xs:ml-2 shrink-0 sm:ml-3 xs:w-4 xs:h-4 sm:w-4 sm:h-4" style={{ color: C.sub }} aria-hidden="true" />
     </button>
   );
 }

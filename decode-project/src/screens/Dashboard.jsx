@@ -4,30 +4,33 @@ import { ScreenHeader, Panel, ProgressBar } from "../components/ui";
 import { SectionEyebrow } from "../components/SectionEyebrow";
 import { ProgressRing } from "../components/ProgressRing";
 
-/* Story entry card — used on the case-select hub. */
 export function StoryEntryCard({ tag, title, desc, story, onClick, accent = C.lilac }) {
+  const chapter = story?.chapter || 0;
+  const finished = !!story?.finished;
+
   return (
     <button onClick={onClick} className="text-left p-4 sm:p-5 rounded-xl border w-full transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 relative overflow-hidden decode-card" style={{ background: C.panel2, borderColor: C.line }}>
       <div className="absolute inset-0 pointer-events-none opacity-60" style={{ background: `radial-gradient(circle at 90% 0%, ${rgba(accent, 0.18)}, transparent 60%)` }} />
       <div className="relative">
         <div className="flex items-center justify-between mb-3 gap-2">
           <span className="text-[10px] font-bold tracking-widest truncate" style={{ color: C.sub }}>{tag}</span>
-          <MessageCircle size={16} style={{ color: accent }} className="shrink-0" />
+          <MessageCircle size={16} style={{ color: accent }} className="shrink-0" aria-hidden="true" />
         </div>
         <p className="font-bold text-base leading-snug" style={{ color: C.text }}>{title}</p>
         <p className="text-xs mt-1 mb-4 leading-relaxed" style={{ color: C.sub }}>{desc}</p>
-        <ProgressBar value={story.chapter} max={5} color={accent} label={`Progresso ${title}: capítulo ${story.chapter} de 5`} />
+        <ProgressBar value={chapter} max={5} color={accent} label={`Progresso ${title}: capítulo ${chapter} de 5`} />
         <p className="text-[11px] mt-1.5 font-semibold" style={{ color: C.sub }}>
-          {story.finished ? "Concluído — SISTEMA DECODED" : story.chapter === 0 ? "Ainda não iniciado" : `Capítulo ${story.chapter}/5`}
+          {finished ? "Concluído — SISTEMA DECODED" : chapter === 0 ? "Ainda não iniciado" : `Capítulo ${chapter}/5`}
         </p>
       </div>
     </button>
   );
 }
 
-export function Dashboard({ storySofia, storyMarcos, unlockedInsights, go, onPlaySofia, onPlayMarcos, onTriagem, onDataLab }) {
-  const totalInsights = unlockedInsights.size;
-  const totalChapters = (storySofia.finished ? 5 : storySofia.chapter) + (storyMarcos.finished ? 5 : storyMarcos.chapter);
+export function Dashboard({ storySofia, storyMarcos, unlockedInsights = new Set(), go, onPlaySofia, onPlayMarcos, onTriagem, onDataLab }) {
+  const totalInsights = unlockedInsights?.size || 0;
+  const totalChapters = ((storySofia?.finished ? 5 : storySofia?.chapter) || 0) + ((storyMarcos?.finished ? 5 : storyMarcos?.chapter) || 0);
+
   return (
     <div>
       <ScreenHeader title="" right={null} />
@@ -107,7 +110,7 @@ function ModuleCard({ icon: Icon, title, desc, onClick, accent = C.lilac }) {
           boxShadow: `0 0 12px ${rgba(accent, 0.15)}`,
         }}
       >
-        <Icon size={16} className="sm:w-5 sm:h-5" style={{ color: accent }} />
+        <Icon size={16} className="sm:w-5 sm:h-5" style={{ color: accent }} aria-hidden="true" />
       </div>
       <div className="flex-1 min-w-0">
         <p className="font-bold text-xs xs:text-sm sm:text-sm" style={{ color: C.text }}>{title}</p>

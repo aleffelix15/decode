@@ -1,13 +1,29 @@
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
-/* A faint, non-interactive particle layer — the same "system coming
-   alive" energy as the scanline body::before, but rising vertically.
-   Position/size/duration are picked once (memoized) so React doesn't
-   reroll them on every render. */
 export function ParticleField({ count = 22, seed = 1 }) {
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window !== "undefined" && window.matchMedia) {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = (e) => setReducedMotion(e.matches);
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", onChange);
+      return () => mediaQuery.removeEventListener("change", onChange);
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(onChange);
+      return () => mediaQuery.removeListener(onChange);
+    }
+  }, []);
+
   const particles = useMemo(() => {
-    // Mulberry32 — tiny deterministic PRNG so particles don't "jump" on
-    // re-render. Seed defaults to 1; pass another seed for variety.
+    if (reducedMotion) return [];
     let s = seed >>> 0;
     const rand = () => {
       s = (s + 0x6D2B79F5) >>> 0;
@@ -24,7 +40,9 @@ export function ParticleField({ count = 22, seed = 1 }) {
       dx: `${(rand() * 40 - 20).toFixed(0)}px`,
       key: i,
     }));
-  }, [count, seed]);
+  }, [count, seed, reducedMotion]);
+
+  if (reducedMotion) return null;
 
   return (
     <div

@@ -1,6 +1,4 @@
-/* ------------------------------------------------------------------ */
-/* THEME — shared color tokens + alpha helper                         */
-/* ------------------------------------------------------------------ */
+/* THEME — shared color tokens + alpha helper */
 export const C = {
   bg: "#06050A",
   panel: "#0D0B14",

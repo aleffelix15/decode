@@ -1,13 +1,8 @@
-import { MessageCircle, Crosshair, Play, CheckCircle2, Shield } from "lucide-react";
+import { Play, CheckCircle2, Shield } from "lucide-react";
 import { C, rgba } from "../theme";
-import { ScreenHeader, PrimaryButton } from "../components/ui";
+import { ScreenHeader, PrimaryButton, ProgressBar, ChapterSubtitle } from "../components/ui";
 import { SectionEyebrow } from "../components/SectionEyebrow";
-import { ProgressBar } from "../components/ui";
-import { ChapterSubtitle } from "../components/ui";
 
-/* Hub: two large cards, one per case. The "done" seal + progress bar
-   differ based on story.chapter / story.finished, so users see their
-   place in either story. Clicking the card starts that case. */
 function CaseCard({ tag, title, blurb, progress, done, onPlay, accent = C.lilac }) {
   return (
     <article
@@ -77,10 +72,15 @@ function CaseCard({ tag, title, blurb, progress, done, onPlay, accent = C.lilac 
   );
 }
 
-export function CaseSelectScreen({ storySofia, storyMarcos, onPlaySofia, onPlayMarcos }) {
+export function CaseSelectScreen({ storySofia, storyMarcos, onPlaySofia, onPlayMarcos, onBack }) {
+  const sofiaChapter = storySofia?.chapter || 0;
+  const sofiaDone = !!storySofia?.finished;
+  const marcosChapter = storyMarcos?.chapter || 0;
+  const marcosDone = !!storyMarcos?.finished;
+
   return (
     <div>
-      <ScreenHeader title="Escolha um caso" />
+      <ScreenHeader title="Escolha um caso" onBack={onBack} />
       <ChapterSubtitle>Cada caso revela um conjunto diferente de sinais. Você pode jogar os dois.</ChapterSubtitle>
       <div className="mb-4">
         <SectionEyebrow accent>DECODE // MÓDULO 01 — JOGAR</SectionEyebrow>
@@ -89,21 +89,19 @@ export function CaseSelectScreen({ storySofia, storyMarcos, onPlaySofia, onPlayM
         <CaseCard
           tag="CASO 01 — A TERCEIRA PESSOA"
           title="SOFIA"
-          icon={MessageCircle}
           accent={C.lilac}
           blurb="Durante o namoro, a amiga percebe os primeiros sinais: localização, senha, isolamento, agressão."
-          progress={{ value: storySofia.chapter, max: 5 }}
-          done={storySofia.finished}
+          progress={{ value: sofiaChapter, max: 5 }}
+          done={sofiaDone}
           onPlay={onPlaySofia}
         />
         <CaseCard
           tag="CASO 02 — O SILÊNCIO DEPOIS"
           title="MARCOS"
           accent={C.amber}
-          icon={Crosshair}
           blurb="Após o término, o stalking digital escala até a chantagem e a ameaça. O que fazer quando 'não' não basta?"
-          progress={{ value: storyMarcos.chapter, max: 5 }}
-          done={storyMarcos.finished}
+          progress={{ value: marcosChapter, max: 5 }}
+          done={marcosDone}
           onPlay={onPlayMarcos}
         />
       </div>
